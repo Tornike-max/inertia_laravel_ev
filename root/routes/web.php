@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\About\AboutController;
+use App\Http\Controllers\Contact\ContactController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Service\ServiceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,9 +18,17 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/services', [ServiceController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('services.index');
+Route::get('/about', [AboutController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('about.index');
+
+Route::get('/contact', [ContactController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('contact.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -24,4 +36,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
