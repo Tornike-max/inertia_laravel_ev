@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Evacuator;
+use App\Models\TowTruck;
+use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,11 +17,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->foreignIdFor(Evacuator::class);
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(TowTruck::class);
             $table->foreignIdFor(Vehicle::class);
             $table->string('pickup_location');
             $table->string('dropoff_location');
+            $table->longText('order_details');
             $table->timestamp('order_date')->nullable();
             $table->timestamp('completion_date')->nullable();
             $table->float('price');

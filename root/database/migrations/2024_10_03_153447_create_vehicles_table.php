@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('make');
             $table->string('model');
             $table->string('year');
+            $table->string('kg');
             $table->string('color');
             $table->string('license_plate');
             $table->timestamps();

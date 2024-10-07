@@ -3,6 +3,7 @@
 use App\Http\Controllers\About\AboutController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\order\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Service\ServiceController;
 use Illuminate\Foundation\Application;
@@ -29,6 +30,9 @@ Route::get('/about', [AboutController::class, 'index'])
 Route::get('/contact', [ContactController::class, 'index'])
     ->middleware(['auth'])
     ->name('contact.index');
+
+//შეკვეთა
+Route::post('/order', [OrderController::class, 'store'])->middleware('auth')->name('order');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -1,8 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
+import { useState } from "react";
+import CreateOrderModal from "@/Components/CreateOrderModal";
 
 export default function Dashboard({ auth }: PageProps) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleToggleModal = () => {
+        setIsModalOpen((open) => !open);
+    };
+
     return (
         <AuthenticatedLayout
             header={
@@ -18,7 +26,7 @@ export default function Dashboard({ auth }: PageProps) {
                         className="relative bg-teal-500 text-teal py-20 text-center bg-cover bg-center bg-no-repeat"
                         style={{ backgroundImage: "url('/background.jpg')" }}
                     >
-                        <div className="bg-teal-500/60 absolute inset-0"></div>{" "}
+                        <div className="bg-teal-500/60 absolute inset-0"></div>
                         <div className="relative z-10">
                             <h1 className="text-4xl font-bold">
                                 სწრაფი და საიმედო სერვისები
@@ -27,15 +35,19 @@ export default function Dashboard({ auth }: PageProps) {
                                 მიიღეთ საუკეთესო სერვისი საქართველოს ნებისმიერ
                                 წერტილში
                             </p>
-                            <a
-                                href="/services"
+                            <button
+                                onClick={() => setIsModalOpen(true)} // Open modal
                                 className="mt-8 inline-block bg-white/50 text-teal font-bold py-2 px-6 rounded-lg hover:bg-white/90 transition-colors duration-300"
                             >
-                                დაიწყეთ ახლა
-                            </a>
+                                ევაკუატორის გამოძახება
+                            </button>
                         </div>
                     </section>
-
+                    {isModalOpen && (
+                        <CreateOrderModal
+                            handleToggleModal={handleToggleModal}
+                        />
+                    )}
                     <section className="p-6 bg-white shadow-sm rounded-lg">
                         <h2 className="text-2xl font-bold text-teal text-center">
                             ჩვენ შესახებ
