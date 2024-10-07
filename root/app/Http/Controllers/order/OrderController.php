@@ -23,7 +23,7 @@ class OrderController extends Controller
             'year' => 'required|string',
             'kg' => 'required|string',
             'color' => 'nullable|string',
-            'license_plate' => 'required|string'
+            'license_plate' => 'required|string|unique:vehicles,license_plate,NULL,id,user_id,' . Auth::user()->id,
         ]);
 
         $vehicleDetails = [
@@ -38,12 +38,15 @@ class OrderController extends Controller
 
         $vehicle = Vehicle::create($vehicleDetails);
 
-        if (!isset($vehicleDetails)) {
-            throw ValidationException::withMessages(['error' => 'გამოძახება ვერ მოხერხდა, გთხოვთ შეავსოთ ყველა ველი']);
-            exit;
-        };
+        if (!$vehicle) {
+            throw ValidationException::withMessages(['error' => 'Unable to create vehicle record']);
+        }
 
         $towTrucks = TowTruck::query()->where('location', '=', $validatedData['pickup_location'])->first();
+
+        if (!$towTrucks) {
+            return back()->withErrors(['error' => 'სამწუხაროდ, არცერთი ევაკუატორი არ არის ხელმისაწვდომი მითითებულ მისამართზე']);
+        }
 
         $orderDetails = [
             'pickup_location' => $validatedData['pickup_location'],
@@ -51,8 +54,8 @@ class OrderController extends Controller
             'order_details' => $validatedData['order_details'] ?? '',
             'order_date' => now(),
             'completion_date' => now(),
-            'price' => 150,
-            'status' => 'completed',
+            'price' => $this->calculatePrice($vehicleDetails, $towTrucks),
+            'status' => 'pending',
             'user_id' => Auth::user()->id,
             'tow_truck_id' => $towTrucks->id,
             'vehicle_id' => $vehicle->id
@@ -62,18 +65,18 @@ class OrderController extends Controller
 
 
         if (isset($order)) {
-            $response = response()->json([
+            return inertia(route('dashboard'), [
                 'status' => '200 ok',
                 'message' => 'Order Created Successfully',
                 'data' => $order
-            ], 200);
-            return $response;
+            ]);
         };
 
-        return response()->json([
-            'status' => '500',
-            'message' => 'Server Error',
-            'data' => $order
-        ], 500);
+        abort(500);
+    }
+
+    private function calculatePrice($vehicleDetails, $towTruck)
+    {
+        return 150;
     }
 }

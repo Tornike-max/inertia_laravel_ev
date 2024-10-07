@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(TowTruck::class);
-            $table->foreignIdFor(Vehicle::class);
+            $table->foreignIdFor(Vehicle::class)->constrained()->cascadeOnDelete();
             $table->string('pickup_location');
             $table->string('dropoff_location');
             $table->longText('order_details');

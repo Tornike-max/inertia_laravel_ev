@@ -5,12 +5,16 @@ import PrimaryButton from "./PrimaryButton";
 import TextInput from "./TextInput";
 import SecondaryButton from "./SecondaryButton";
 import { error } from "console";
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 
 const OrderForm = ({
     handleToggleModal,
 }: {
     handleToggleModal: () => void;
 }) => {
+    // const [location, setLocation] = useState({ lat: null, lng: null });
+
     const { data, post, setData, errors, processing } = useForm({
         pickup_location: "",
         dropoff_location: "",
@@ -24,9 +28,27 @@ const OrderForm = ({
         error: "",
     });
 
+    // useEffect(() => {
+    //     if ("geolocation" in navigator) {
+    //         navigator.geolocation.getCurrentPosition(
+    //             (position) => {
+    //                 setLocation({
+    //                     lat: position.coords.latitude,
+    //                     lng: position.coords.longitude,
+    //                 });
+    //             },
+    //             (error) => setError(error.message)
+    //         );
+    //     } else {
+    //         setError("Geolocation is not available");
+    //     }
+    // }, []);
+
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route("order"));
+        const result = post(route("order"));
+        handleToggleModal();
+        toast.success("შეკვეთა წარმატებით გაიგზავნა");
     };
 
     return (
