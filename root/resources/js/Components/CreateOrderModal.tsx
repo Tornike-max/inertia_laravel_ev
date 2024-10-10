@@ -1,9 +1,12 @@
+import { Service } from "@/types";
 import OrderForm from "./OrderForm";
 
 const CreateOrderModal = ({
     handleToggleModal,
+    services,
 }: {
     handleToggleModal: () => void;
+    services: Service[];
 }) => {
     return (
         <>
@@ -24,6 +27,7 @@ const CreateOrderModal = ({
                             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <OrderForm
                                     handleToggleModal={handleToggleModal}
+                                    services={services}
                                 />
                             </div>
                         </div>

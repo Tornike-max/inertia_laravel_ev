@@ -1,11 +1,12 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { PageProps } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Feedbacks, PageProps, Service } from "@/types";
+import { Head, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import CreateOrderModal from "@/Components/CreateOrderModal";
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard({ auth, services }: PageProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { feedbacks } = usePage().props;
 
     const handleToggleModal = () => {
         setIsModalOpen((open) => !open);
@@ -46,6 +47,7 @@ export default function Dashboard({ auth }: PageProps) {
                     {isModalOpen && (
                         <CreateOrderModal
                             handleToggleModal={handleToggleModal}
+                            services={services}
                         />
                     )}
                     <section className="p-6 bg-white shadow-sm rounded-lg">
@@ -64,21 +66,14 @@ export default function Dashboard({ auth }: PageProps) {
                             ძირითადი სერვისები
                         </h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                            <ServiceCard
-                                title="მანქანის ევაკუატორი"
-                                description="სწრაფი და უსაფრთხო მანქანის ევაკუატორი."
-                                link="/services"
-                            />
-                            <ServiceCard
-                                title="მოტოციკლეტის ევაკუატორი"
-                                description="მოტოციკლეტის უსაფრთხო ტრანსპორტირება."
-                                link="/services"
-                            />
-                            <ServiceCard
-                                title="მძიმე ტექნიკის ევაკუაცია"
-                                description="მძიმე ტექნიკის ევაკუაცია."
-                                link="/services"
-                            />
+                            {services?.map((service: Service) => (
+                                <ServiceCard
+                                    key={service.id}
+                                    title={service.name}
+                                    description={service.description}
+                                    link="/services"
+                                />
+                            ))}
                         </div>
                     </section>
 
@@ -111,14 +106,13 @@ export default function Dashboard({ auth }: PageProps) {
                             კლიენტების შეფასებები
                         </h2>
                         <div className="mt-6 space-y-6">
-                            <Testimonial
-                                name="გიორგი"
-                                feedback="საუკეთესო სერვისი. სწრაფად მოვიდნენ და პროფესიონალურად შეასრულეს სამუშაო."
-                            />
-                            <Testimonial
-                                name="თამარი"
-                                feedback="ძალიან კმაყოფილი ვარ სერვისით. აუცილებლად ვურჩევ ყველას."
-                            />
+                            {feedbacks.map((feedback: Feedbacks) => (
+                                <Testimonial
+                                    key={feedback.id}
+                                    name={feedback.author.name}
+                                    feedback={feedback.content}
+                                />
+                            ))}
                         </div>
                     </section>
 

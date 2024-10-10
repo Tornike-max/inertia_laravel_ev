@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\FeedBack;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,5 +24,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        $feedbacks = Cache::remember('feedbacks', 60 * 3, function () {
+            return FeedBack::query()->with('author')->latest()->take(5)->get();
+        });
+
+        View::share('feedbacks', $feedbacks);
     }
 }

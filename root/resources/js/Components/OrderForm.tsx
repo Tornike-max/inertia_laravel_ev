@@ -4,20 +4,21 @@ import InputLabel from "./InputLabel";
 import PrimaryButton from "./PrimaryButton";
 import TextInput from "./TextInput";
 import SecondaryButton from "./SecondaryButton";
-import { error } from "console";
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
+import SelectInput from "./SelectInput";
+import { Service } from "@/types";
 
 const OrderForm = ({
     handleToggleModal,
+    services,
 }: {
     handleToggleModal: () => void;
+    services: Service[];
 }) => {
-    // const [location, setLocation] = useState({ lat: null, lng: null });
-
-    const { data, post, setData, errors, processing } = useForm({
+    const { data, post, setData, errors, processing, hasErrors } = useForm({
         pickup_location: "",
         dropoff_location: "",
+        type: "",
         model: "",
         order_details: "",
         make: "",
@@ -28,34 +29,40 @@ const OrderForm = ({
         error: "",
     });
 
-    // useEffect(() => {
-    //     if ("geolocation" in navigator) {
-    //         navigator.geolocation.getCurrentPosition(
-    //             (position) => {
-    //                 setLocation({
-    //                     lat: position.coords.latitude,
-    //                     lng: position.coords.longitude,
-    //                 });
-    //             },
-    //             (error) => setError(error.message)
-    //         );
-    //     } else {
-    //         setError("Geolocation is not available");
-    //     }
-    // }, []);
-
-    const submit = (e: React.FormEvent) => {
+    const submit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const result = post(route("order"));
-        handleToggleModal();
-        toast.success("შეკვეთა წარმატებით გაიგზავნა");
+        if (hasErrors) {
+            toast.error("ბოდიში😥, თავიდან სცადეთ");
+            return;
+        }
+
+        post(route("order"));
     };
+
+    const vehicleTypes = [
+        { value: "motorcycle", label: "მოტოციკლი" },
+        { value: "sedan", label: "სედანი" },
+        { value: "heavy_equipment", label: "მძიმე ტექნიკა" },
+    ];
+
+    const price = services.find((item) => item.name === data.type);
 
     return (
         <form onSubmit={submit}>
             {errors.error && <InputError message={errors.error} />}
 
             <div className="w-full grid grid-cols-2 gap-4">
+                <div className="w-full col-span-2">
+                    <InputLabel htmlFor="type" value="ევაკუატორის ტიპი *" />
+                    <SelectInput
+                        name="type"
+                        value={data.type}
+                        onChange={(e) => setData("type", e.target.value)}
+                        className="mt-1 block w-full"
+                        list={services}
+                    />
+                    <InputError message={errors.type} className="mt-2" />
+                </div>
                 <div className="w-full">
                     <InputLabel htmlFor="pickup_location" value="საიდან *" />
                     <TextInput
@@ -202,6 +209,12 @@ const OrderForm = ({
                     />
                 </div>
             </div>
+
+            {price !== undefined && (
+                <div className="w-full flex justify-end items-center my-2 text-sm text-teal">
+                    {price.name}: ღირებულება {price.price} ლარი
+                </div>
+            )}
 
             <div className="mt-4 w-full flex items-center justify-center gap-4">
                 <SecondaryButton

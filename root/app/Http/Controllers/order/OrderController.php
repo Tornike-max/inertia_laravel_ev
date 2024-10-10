@@ -9,6 +9,7 @@ use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Termwind\Components\Dd;
 
 class OrderController extends Controller
 {
@@ -20,11 +21,14 @@ class OrderController extends Controller
             'model' => 'required|string',
             'order_details' => 'nullable|string',
             'make' => 'required|string',
+            'type' => 'required|string',
             'year' => 'required|string',
             'kg' => 'required|string',
             'color' => 'nullable|string',
             'license_plate' => 'required|string|unique:vehicles,license_plate,NULL,id,user_id,' . Auth::user()->id,
         ]);
+
+        dd($validatedData);
 
         $vehicleDetails = [
             'user_id' => Auth::user()->id,
@@ -54,7 +58,7 @@ class OrderController extends Controller
             'order_details' => $validatedData['order_details'] ?? '',
             'order_date' => now(),
             'completion_date' => now(),
-            'price' => $this->calculatePrice($vehicleDetails, $towTrucks),
+            'price' => $this->calculatePrice($validatedData['type']),
             'status' => 'pending',
             'user_id' => Auth::user()->id,
             'tow_truck_id' => $towTrucks->id,
@@ -62,7 +66,6 @@ class OrderController extends Controller
         ];
 
         $order = Order::create($orderDetails);
-
 
         if (isset($order)) {
             return inertia(route('dashboard'), [
@@ -75,8 +78,24 @@ class OrderController extends Controller
         abort(500);
     }
 
-    private function calculatePrice($vehicleDetails, $towTruck)
+    private function calculatePrice($vehicleType)
     {
-        return 150;
+        switch ($vehicleType) {
+            case 'მანქანის ევაკუატორი':
+                return 60;
+                break;
+
+            case 'მოტოციკლის ევაკუატორი':
+                return 40;
+                break;
+
+            case 'მძიმე ტექნიკის ევაკუატორი':
+                return 70;
+                break;
+
+            default:
+                return 60;
+                break;
+        }
     }
 }

@@ -13,6 +13,7 @@ class Order extends Model
         'pickup_location',
         'dropoff_location',
         'order_details',
+        'type',
         'order_date',
         'completion_date',
         'price',

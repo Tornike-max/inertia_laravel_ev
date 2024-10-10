@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Evacuator;
+use App\Models\FeedBack;
 use App\Models\Order;
+use App\Models\Service;
 use App\Models\TowTruck;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -19,21 +21,40 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory(20)->create();
+        // User::factory(20)->create();
 
-        Vehicle::factory(10)->create();
+        // Vehicle::factory(10)->create();
 
-        Order::factory(1)->create([
-            'user_id' => User::factory(),
-            'vehicle_id' => Vehicle::factory(),
-            'tow_truck_id' => TowTruck::factory(),
-            'order_details' => 'მინდა რაც შეიძლება მალე მოხვიდეთ და აუცილებელია თან იქონიოთ ხურდა, რადგან ზუსტად არ მაქვს თანხა.',
-            'pickup_location' => 'Tbilisi,Niko muskhelishvili street-2',
-            'dropoff_location' => 'Batumi,Rustaveli street-5',
-            'status' => 'completed',
-            'order_date' => fake()->date(),
-            'completion_date' => fake()->date(),
-            'price' => '500',
-        ]);
+        // Order::factory(1)->create([
+        //     'user_id' => User::factory(),
+        //     'vehicle_id' => Vehicle::factory(),
+        //     'tow_truck_id' => TowTruck::factory(),
+        //     'order_details' => 'მინდა რაც შეიძლება მალე მოხვიდეთ და აუცილებელია თან იქონიოთ ხურდა, რადგან ზუსტად არ მაქვს თანხა.',
+        //     'pickup_location' => 'Tbilisi,Niko muskhelishvili street-2',
+        //     'dropoff_location' => 'Batumi,Rustaveli street-5',
+        //     'status' => 'completed',
+        //     'order_date' => fake()->date(),
+        //     'completion_date' => fake()->date(),
+        //     'price' => '500',
+        // ]);
+
+        $feedbackArr = [
+            [
+                'author_id' => User::factory(),
+                'content' => "საუკეთესო სერვისი. სწრაფად მოვიდნენ და პროფესიონალურად შეასრულეს სამუშაო."
+            ],
+            [
+                'author_id' => User::factory(),
+                'content' => "ძალიან კმაყოფილი ვარ სერვისით. აუცილებლად ვურჩევ ყველას."
+            ],
+            [
+                'author_id' => User::factory(),
+                'content' => "არ ვარგა, ამ გაახსირებულებმა გადამაგდეს🤬"
+            ]
+        ];
+
+        foreach ($feedbackArr as $feedback) {
+            FeedBack::factory()->create($feedback);
+        }
     }
 }
