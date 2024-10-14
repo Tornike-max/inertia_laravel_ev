@@ -2,7 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 
-export default function Index({ auth }: PageProps) {
+export default function Index({ auth, about }: PageProps) {
     return (
         <AuthenticatedLayout
             header={
@@ -22,11 +22,7 @@ export default function Index({ auth }: PageProps) {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             <p className="text-gray-700 text-lg">
-                                ჩვენი კომპანია ეწევა სატრანსპორტო სერვისების
-                                მიწოდებას, რომელიც უზრუნველყოფს მომხმარებელს
-                                სწრაფი და საიმედო მომსახურებით. ჩვენი მიზანია,
-                                თითოეული კლიენტის საჭიროებები გავამართლოთ და
-                                შევქმნათ უნიკალური გამოცდილება.
+                                {about.ourMission}
                             </p>
                         </div>
                     </div>
@@ -37,12 +33,9 @@ export default function Index({ auth }: PageProps) {
                     </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6">
-                            <ul className="list-disc list-inside text-gray-700 space-y-2">
-                                <li>• გამოცდილი პროფესიონალების გუნდი</li>
-                                <li>• მომხმარებელზე ორიენტირებული სერვისები</li>
-                                <li>• მაღალი ხარისხის და უსაფრთხოება</li>
-                                <li>• 24/7 მხარდაჭერა</li>
-                            </ul>
+                            <p className="text-gray-700 text-lg">
+                                {about.whyUs}
+                            </p>
                         </div>
                     </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -53,10 +46,7 @@ export default function Index({ auth }: PageProps) {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6">
                             <p className="text-gray-700 text-lg">
-                                ჩვენი კომპანია დაარსდა გუშინ, და დღემდე
-                                გრძელდება მუდმივი განვითარება. ჩვენ ვცდილობთ,
-                                რომ გავაუმჯობესოთ ჩვენი მომსახურება და დავნერგოთ
-                                სიახლეები ბაზარზე.
+                                {about.ourHistory}
                             </p>
                         </div>
                     </div>

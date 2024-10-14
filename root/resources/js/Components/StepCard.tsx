@@ -18,7 +18,7 @@ const StepCard = ({
                         onClick={() =>
                             setStep(step === stepNumber ? null : stepNumber)
                         }
-                        className={`w-full flex flex-col bg-slate-50 border rounded-lg shadow-md cursor-pointer transform transition-all duration-300 ease-in-out ${
+                        className={`w-full flex flex-col  border rounded-lg shadow-md cursor-pointer transform transition-all duration-300 ease-in-out ${
                             step === stepNumber ? "border-teal" : "border-light"
                         } hover:shadow-lg`}
                     >
@@ -42,8 +42,7 @@ const StepCard = ({
                             }`}
                         >
                             <div className="p-4 border-t border-teal text-teal">
-                                {stepNumber === 1 &&
-                                    "შეიყვანეთ ავტომობილის მონაცემები"}
+                                {stepNumber === 1 && "აირჩიე სერვისი"}
                                 {stepNumber === 2 &&
                                     "შეიყვანეთ ავტომობილის მონაცემები"}
                                 {stepNumber === 3 &&

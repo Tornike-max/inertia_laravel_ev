@@ -55,6 +55,14 @@ export default function Authenticated({
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
+                            {user.status === "admin" && (
+                                <NavLink
+                                    href={route("admin.dashboard")}
+                                    active={route().current("admin.dashboard")}
+                                >
+                                    ადმინ პანელი
+                                </NavLink>
+                            )}
                             <div className="relative ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>

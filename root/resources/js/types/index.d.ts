@@ -3,6 +3,7 @@ export interface User {
     name: string;
     email: string;
     email_verified_at?: string;
+    status: string;
 }
 
 export interface Service {
@@ -19,6 +20,13 @@ export interface Feedbacks {
     content: string;
 }
 
+export interface About {
+    title: string;
+    ourMission: string;
+    whyUs: string;
+    ourHistory: string;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
@@ -30,4 +38,5 @@ export type PageProps<
     ourMission?: {
         ourMission: string;
     };
+    about: About;
 };
