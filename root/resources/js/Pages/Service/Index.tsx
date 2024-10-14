@@ -1,9 +1,12 @@
-import OrderForm from "@/Components/OrderForm";
+import StepCard from "@/Components/StepCard";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
+import { useState } from "react";
+import { HiArrowSmallDown, HiArrowSmallUp } from "react-icons/hi2";
 
-export default function Index({ auth }: PageProps) {
+export default function Index({ auth, services }: PageProps) {
+    const [step, setStep] = useState<number | null>(null);
     return (
         <AuthenticatedLayout
             header={
@@ -20,51 +23,22 @@ export default function Index({ auth }: PageProps) {
                             სერვისები
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-                            <ServiceCard
-                                title="მანქანის ევაკუატორი"
-                                description="სწრაფი და უსაფრთხო მანქანის ევაკუატორი, ნებისმიერი ზომის მანქანის გადაადგილებისთვის."
-                            />
-                            <ServiceCard
-                                title="მოტოციკლეტის ევაკუატორი"
-                                description="მოტოციკლეტის უსაფრთხო ტრანსპორტირება დაზიანების გარეშე."
-                            />
-                            <ServiceCard
-                                title="მძიმე ტექნიკის ევაკუაცია"
-                                description="დიდი ზომის და მძიმე ტექნიკის ევაკუაცია სპეციალური აღჭურვილობით."
-                            />
-                            <ServiceCard
-                                title="მანძილზე ტრანსპორტირება"
-                                description="მანძილზე მანქანის უსაფრთხო გადატანა საქართველოს ნებისმიერ ქალაქში."
-                            />
-                            <ServiceCard
-                                title="დაფიქსირებული ბორბლები"
-                                description="გთავაზობთ სწრაფ და პროფესიონალურ მომსახურებას ბორბლების დაფიქსირებისთვის."
-                            />
-                            <ServiceCard
-                                title="საწვავის მიწოდება"
-                                description="საწვავის მიწოდების სერვისი მანქანის გაჩერების შემთხვევისას."
-                            />
+                            {services?.map((service) => (
+                                <ServiceCard
+                                    title={service.name}
+                                    price={Number(service.price)}
+                                    description={service.description}
+                                />
+                            ))}
                         </div>
                     </div>
 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-teal font-bold text-2xl text-center">
-                            როგორ მუშაობს
+                            როგორ გამოვიძახოთ ევაკუატორი?
                         </div>
                         <div className="p-6 space-y-4">
-                            <StepCard step="1" description="აირჩიეთ სერვისი" />
-                            <StepCard
-                                step="2"
-                                description="შეიყვანეთ ავტომობილის მონაცემები"
-                            />
-                            <StepCard
-                                step="3"
-                                description="მონიშნეთ პიკაპისა და ჩამოსვლის ლოკაცია"
-                            />
-                            <StepCard
-                                step="4"
-                                description="დაადასტურეთ და მიიღეთ ევაკუატორი"
-                            />
+                            <StepCard step={step ?? null} setStep={setStep} />
                         </div>
                     </div>
 
@@ -126,30 +100,27 @@ export default function Index({ auth }: PageProps) {
 
 function ServiceCard({
     title,
+    price,
     description,
 }: {
     title: string;
+    price: number;
     description: string;
 }) {
     return (
-        <div className="bg-white shadow-md p-4 rounded-lg">
-            <h3 className="text-teal font-bold text-lg">{title}</h3>
-            <p className="mt-2 text-gray-700">{description}</p>
-        </div>
-    );
-}
-
-function StepCard({
-    step,
-    description,
-}: {
-    step: string;
-    description: string;
-}) {
-    return (
-        <div className="bg-white shadow-md p-4 rounded-lg">
-            <h3 className="text-teal font-bold text-lg">ნაბიჯი {step}</h3>
-            <p className="mt-2 text-gray-700">{description}</p>
+        <div className="bg-white shadow-lg p-6 rounded-lg transition-transform transform hover:scale-105 flex flex-col justify-between h-full">
+            <h3 className="text-teal font-bold text-xl hover:text-teal-800 transition-colors">
+                {title}
+            </h3>
+            <p className="mt-3 text-teal text-sm">{description}</p>
+            <div className="w-full flex justify-between items-center border-t pt-4 text-sm mt-2">
+                <p className="text-gray-600 font-semibold">
+                    სერვისის ღირებულება: {price} ₾
+                </p>
+                <button className="bg-teal-600 text-teal hover:underline px-4 py-2 rounded-md hover:bg-teal-700 transition-colors">
+                    არჩევა
+                </button>
+            </div>
         </div>
     );
 }

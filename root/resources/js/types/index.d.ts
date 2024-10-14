@@ -25,9 +25,9 @@ export type PageProps<
     auth: {
         user: User;
     };
-    services: Service[];
-    feedbacks: Feedbacks[];
-    ourMission: {
+    services?: Service[];
+    feedbacks?: Feedbacks[];
+    ourMission?: {
         ourMission: string;
     };
 };

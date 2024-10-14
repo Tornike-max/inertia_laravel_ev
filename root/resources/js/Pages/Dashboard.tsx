@@ -47,7 +47,7 @@ export default function Dashboard({ auth, services, ourMission }: PageProps) {
                     {isModalOpen && (
                         <CreateOrderModal
                             handleToggleModal={handleToggleModal}
-                            services={services}
+                            services={services ?? []}
                         />
                     )}
                     <section className="p-6 bg-white shadow-sm rounded-lg">
@@ -55,7 +55,7 @@ export default function Dashboard({ auth, services, ourMission }: PageProps) {
                             ჩვენ შესახებ
                         </h2>
                         <p className="mt-4 text-gray-700 text-center">
-                            {ourMission.ourMission}
+                            {ourMission?.ourMission}
                         </p>
                     </section>
 
