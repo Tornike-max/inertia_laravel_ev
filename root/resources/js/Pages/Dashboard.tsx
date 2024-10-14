@@ -4,7 +4,7 @@ import { Head, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import CreateOrderModal from "@/Components/CreateOrderModal";
 
-export default function Dashboard({ auth, services }: PageProps) {
+export default function Dashboard({ auth, services, ourMission }: PageProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { feedbacks } = usePage().props;
 
@@ -24,7 +24,7 @@ export default function Dashboard({ auth, services }: PageProps) {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-12">
                     <section
-                        className="relative bg-teal-500 text-teal py-20 text-center bg-cover bg-center bg-no-repeat"
+                        className="relative bg-teal-500 bg-teal text-slate-100 rounded-md py-20 text-center bg-cover bg-center bg-no-repeat"
                         style={{ backgroundImage: "url('/background.jpg')" }}
                     >
                         <div className="bg-teal-500/60 absolute inset-0"></div>
@@ -55,9 +55,7 @@ export default function Dashboard({ auth, services }: PageProps) {
                             ჩვენ შესახებ
                         </h2>
                         <p className="mt-4 text-gray-700 text-center">
-                            ჩვენ გთავაზობთ მაღალხარისხიან და სწრაფ ევაკუატორის
-                            სერვისს. ჩვენი გუნდი მუდამ მზადაა დაგეხმაროთ
-                            საჭიროების დროს.
+                            {ourMission.ourMission}
                         </p>
                     </section>
 
@@ -106,7 +104,7 @@ export default function Dashboard({ auth, services }: PageProps) {
                             კლიენტების შეფასებები
                         </h2>
                         <div className="mt-6 space-y-6">
-                            {feedbacks.map((feedback: Feedbacks) => (
+                            {feedbacks?.map((feedback: Feedbacks) => (
                                 <Testimonial
                                     key={feedback.id}
                                     name={feedback.author.name}

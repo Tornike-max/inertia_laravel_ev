@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
             return FeedBack::query()->with('author')->latest()->take(5)->get();
         });
 
-        View::share('feedbacks', $feedbacks);
+        Inertia::share('feedbacks', $feedbacks);
     }
 }

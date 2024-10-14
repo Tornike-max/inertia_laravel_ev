@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\About;
 use App\Models\Evacuator;
 use App\Models\FeedBack;
 use App\Models\Order;
@@ -38,23 +39,34 @@ class DatabaseSeeder extends Seeder
         //     'price' => '500',
         // ]);
 
-        $feedbackArr = [
-            [
-                'author_id' => User::factory(),
-                'content' => "საუკეთესო სერვისი. სწრაფად მოვიდნენ და პროფესიონალურად შეასრულეს სამუშაო."
-            ],
-            [
-                'author_id' => User::factory(),
-                'content' => "ძალიან კმაყოფილი ვარ სერვისით. აუცილებლად ვურჩევ ყველას."
-            ],
-            [
-                'author_id' => User::factory(),
-                'content' => "არ ვარგა, ამ გაახსირებულებმა გადამაგდეს🤬"
-            ]
-        ];
+        // $feedbackArr = [
+        //     [
+        //         'author_id' => User::factory(),
+        //         'content' => "საუკეთესო სერვისი. სწრაფად მოვიდნენ და პროფესიონალურად შეასრულეს სამუშაო."
+        //     ],
+        //     [
+        //         'author_id' => User::factory(),
+        //         'content' => "ძალიან კმაყოფილი ვარ სერვისით. აუცილებლად ვურჩევ ყველას."
+        //     ],
+        //     [
+        //         'author_id' => User::factory(),
+        //         'content' => "არ ვარგა, ამ გაახსირებულებმა გადამაგდეს🤬"
+        //     ]
+        // ];
 
-        foreach ($feedbackArr as $feedback) {
-            FeedBack::factory()->create($feedback);
-        }
+        // foreach ($feedbackArr as $feedback) {
+        //     FeedBack::factory()->create($feedback);
+        // }
+
+        // $table->string('title');
+        // $table->tinyText('ourMission');
+        // $table->tinyText('whyUs');
+        // $table->tinyText('ourHistory');
+        About::factory()->create([
+            'title' => 'ჩვენს შესახებ',
+            'ourMission' => 'ჩვენი კომპანია ეწევა სატრანსპორტო სერვისების მიწოდებას, რომელიც უზრუნველყოფს მომხმარებელს სწრაფი და საიმედო მომსახურებით. ჩვენი მიზანია, თითოეული კლიენტის საჭიროებები გავამართლოთ და შევქმნათ უნიკალური გამოცდილება.',
+            'whyUs' => 'ჩვენი კომპანია გთავაზობთ გამოცდილი პროფესიონალების გუნდს, რომელიც ყოველთვის მზად არის უზრუნველყოს მომხმარებელზე ორიენტირებული სერვისები. ჩვენი მიზანია მაღალი ხარისხის და უსაფრთხო მომსახურების მიწოდება. ჩვენ გთავაზობთ 24/7 მხარდაჭერას, რათა თქვენი საჭიროებები ყოველთვის იყოს დაკმაყოფილებული.',
+            'ourHistory' => 'ჩვენი კომპანია დაარსდა გუშინ, და დღემდე გრძელდება მუდმივი განვითარება. ჩვენ ვცდილობთ, რომ გავაუმჯობესოთ ჩვენი მომსახურება და დავნერგოთ სიახლეები ბაზარზე.'
+        ]);
     }
 }

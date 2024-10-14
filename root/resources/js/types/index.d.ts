@@ -27,4 +27,7 @@ export type PageProps<
     };
     services: Service[];
     feedbacks: Feedbacks[];
+    ourMission: {
+        ourMission: string;
+    };
 };
