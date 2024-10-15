@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('question');
-            $table->string('answer');
+            $table->string('answer')->nullable();
             $table->string('category')->nullable();
             $table->timestamps();
         });

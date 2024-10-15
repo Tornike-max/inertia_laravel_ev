@@ -13,7 +13,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::query()->orderBy('price', 'desc')->get();
-        $questions = Question::query()->get()->groupBy('category');
+        $questions = Question::query()->where('answer', '!=', '')->get()->groupBy('category');
 
         return Inertia::render('Service/Index', [
             'services' => $services,

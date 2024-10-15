@@ -1,27 +1,18 @@
 import Button from "@/Components/Button";
 import FAQ from "@/Components/FAQ";
 import PackageCard from "@/Components/PackageCard";
+import SendQuestion from "@/Components/SendQuestion";
 import ServiceCard from "@/Components/ServiceCard";
 import StepCard from "@/Components/StepCard";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
-import { Head, router, useForm } from "@inertiajs/react";
-import { FormEvent, FormEventHandler, useState } from "react";
+import { Head } from "@inertiajs/react";
+import { FormEventHandler, useState } from "react";
 
 export default function Index({ auth, services, questions }: PageProps) {
     const [step, setStep] = useState<number | null>(null);
-    const { data, setData, post, processing, errors, reset, get } = useForm({
-        question: "",
-    });
+
     const [category, setCategory] = useState("");
-
-    const submit: FormEventHandler = (e: React.ChangeEvent) => {
-        e.preventDefault();
-
-        post(route("question.send"), {
-            onFinish: () => reset("question"),
-        });
-    };
 
     let filteredData;
 
@@ -46,8 +37,6 @@ export default function Index({ auth, services, questions }: PageProps) {
             filteredData = questions.services;
             break;
     }
-
-    console.log(filteredData);
 
     return (
         <AuthenticatedLayout
@@ -115,46 +104,7 @@ export default function Index({ auth, services, questions }: PageProps) {
                         </div>
                     </div>
 
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-teal font-bold text-2xl text-center">
-                            დაგვისვი კითხვა
-                        </div>
-                        <div className="p-6 space-y-4">
-                            <form
-                                onSubmit={(e) => submit(e)}
-                                className="col-span-1 md:col-span-2"
-                            >
-                                <label className="block text-sm font-medium text-gray-700">
-                                    წერილი
-                                </label>
-                                <textarea
-                                    value={data.question}
-                                    onChange={(e) =>
-                                        setData("question", e.target.value)
-                                    }
-                                    className={`mt-1 block w-full border ${
-                                        errors.question
-                                            ? "border-red-500"
-                                            : "border-gray-300"
-                                    } rounded-md p-2`}
-                                    rows={4}
-                                />
-                                {errors.question && (
-                                    <span className="text-red-500 text-sm mt-2">
-                                        {errors.question}
-                                    </span>
-                                )}
-                                <div className="w-full flex justify-end items-center mt-3">
-                                    <Button
-                                        disabled={processing}
-                                        className="bg-light hover:bg-teal"
-                                    >
-                                        გაგზავნა
-                                    </Button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <SendQuestion />
 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-teal font-bold text-2xl text-center">
