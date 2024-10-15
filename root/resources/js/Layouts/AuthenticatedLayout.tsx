@@ -56,12 +56,16 @@ export default function Authenticated({
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             {user.status === "admin" && (
-                                <NavLink
-                                    href={route("admin.dashboard")}
-                                    active={route().current("admin.dashboard")}
-                                >
-                                    ადმინ პანელი
-                                </NavLink>
+                                <div className="space-x-8 h-16 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink
+                                        href={route("admin.dashboard")}
+                                        active={route().current(
+                                            "admin.dashboard"
+                                        )}
+                                    >
+                                        ადმინ პანელი
+                                    </NavLink>
+                                </div>
                             )}
                             <div className="relative ms-3">
                                 <Dropdown>

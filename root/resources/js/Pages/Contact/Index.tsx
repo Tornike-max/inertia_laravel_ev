@@ -30,7 +30,7 @@ export default function Index({ auth }: PageProps) {
                             ჩვენი სერვისი
                         </div>
                     </div>
-                    <div className="bg-teal-50 border border-teal-300 shadow-lg sm:rounded-lg">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-8 text-gray-700">
                             <h3 className="text-2xl font-semibold text-teal mb-4 text-center">
                                 ნებისმიერი კითხვის შემთხვევაში დაგვიკავშირდით!
