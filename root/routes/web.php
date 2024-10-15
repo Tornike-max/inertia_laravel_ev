@@ -6,6 +6,7 @@ use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\order\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Questions\QuestionController;
 use App\Http\Controllers\Service\ServiceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +24,7 @@ Route::get('/', DashboardController::class)->middleware(['auth', 'verified'])->n
 Route::get('/services', [ServiceController::class, 'index'])
     ->middleware(['auth'])
     ->name('services.index');
+
 Route::get('/about', [AboutController::class, 'index'])
     ->middleware(['auth'])
     ->name('about.index');
@@ -30,6 +32,9 @@ Route::get('/about', [AboutController::class, 'index'])
 Route::get('/contact', [ContactController::class, 'index'])
     ->middleware(['auth'])
     ->name('contact.index');
+
+//შეკითხვის დასმა
+Route::post('/question', [QuestionController::class, 'send'])->middleware('auth')->name('question.send');
 
 //შეკვეთა
 Route::post('/order', [OrderController::class, 'store'])->middleware('auth')->name('order');

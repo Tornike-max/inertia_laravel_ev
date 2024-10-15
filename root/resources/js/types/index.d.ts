@@ -27,6 +27,23 @@ export interface About {
     ourHistory: string;
 }
 
+interface FAQ {
+    id: number;
+    user_id: number;
+    user: User;
+    question: string;
+    answer: string;
+    category: string;
+}
+
+interface FAQsByCategory {
+    payments: FAQ[];
+    prices: FAQ[];
+    security: FAQ[];
+    services: FAQ[];
+    techs: FAQ[];
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
@@ -39,4 +56,6 @@ export type PageProps<
         ourMission: string;
     };
     about: About;
+    questions: FAQsByCategory;
+    question: FAQ;
 };
