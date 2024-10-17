@@ -6,6 +6,9 @@ export interface User {
     role: string;
     email_verified_at?: string;
     status: string;
+    updated_at: string;
+    created_at: string;
+    location: string;
 }
 
 export interface Service {
@@ -76,4 +79,5 @@ export type PageProps<
     about: About;
     questions: FAQsByCategory;
     question: FAQ;
+    user: User;
 };
