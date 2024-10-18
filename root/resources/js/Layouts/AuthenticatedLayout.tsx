@@ -14,6 +14,8 @@ export default function Authenticated({
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+    const currentPath = window.location.href.includes("admin");
+
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="border-b border-gray-100 bg-white">
@@ -216,7 +218,53 @@ export default function Authenticated({
             {header && (
                 <header className="bg-white shadow">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
+                        {currentPath ? (
+                            <div className="w-full flex justify-start items-center gap-8">
+                                <h2 className="text-xl font-semibold leading-tight text-teal">
+                                    ადმინ პანელი
+                                </h2>
+                                <div className="flex justify-start items-center gap-4 md:gap-6 lg:gap-8">
+                                    <NavLink
+                                        href={route("admin.dashboard")}
+                                        active={route().current(
+                                            "admin.dashboard"
+                                        )}
+                                    >
+                                        მთავარი
+                                    </NavLink>
+                                    <NavLink
+                                        href={route("admin.users")}
+                                        active={route().current("admin.users")}
+                                    >
+                                        მომხმარებლები
+                                    </NavLink>
+                                    <NavLink
+                                        href={route("admin.orders")}
+                                        active={route().current("admin.orders")}
+                                    >
+                                        შეკვეთები
+                                    </NavLink>
+                                    <NavLink
+                                        href={route("admin.vehicles")}
+                                        active={route().current(
+                                            "admin.vehicles"
+                                        )}
+                                    >
+                                        მანქანები
+                                    </NavLink>
+                                    <NavLink
+                                        href={route("admin.evacuators")}
+                                        active={route().current(
+                                            "admin.evacuators"
+                                        )}
+                                    >
+                                        ევაკუატორები
+                                    </NavLink>
+                                </div>
+                            </div>
+                        ) : (
+                            header
+                        )}
                     </div>
                 </header>
             )}

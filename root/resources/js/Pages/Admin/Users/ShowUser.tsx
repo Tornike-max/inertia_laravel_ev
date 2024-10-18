@@ -5,13 +5,7 @@ import { Head, Link } from "@inertiajs/react";
 
 const ShowUser = ({ auth, user }: PageProps) => {
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-teal">
-                    მომხმარებლის დეტალები
-                </h2>
-            }
-        >
+        <AuthenticatedLayout header={true}>
             <Head title={`${user.name} - დეტალები`} />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">

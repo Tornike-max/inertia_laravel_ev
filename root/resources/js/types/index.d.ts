@@ -18,6 +18,11 @@ export interface Service {
     price: string;
 }
 
+export interface Role {
+    label: string;
+    value: string;
+}
+
 export interface Feedbacks {
     id: number;
     author_id: number;
@@ -80,4 +85,8 @@ export type PageProps<
     questions: FAQsByCategory;
     question: FAQ;
     user: User;
+    usersCount?: number;
+    evacuatorsCount?: number;
+    ordersCount?: number;
+    vehiclesCount?: number;
 };

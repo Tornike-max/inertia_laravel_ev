@@ -2,6 +2,7 @@
 
 import { User } from "@/types";
 import { Link } from "@inertiajs/react";
+import React from "react";
 import {
     HiEllipsisVertical,
     HiOutlineEye,
@@ -10,8 +11,7 @@ import {
 } from "react-icons/hi2";
 import Dropdown from "./Dropdown";
 
-const UsersList = ({ users }: { users: unknown }) => {
-    console.log(users);
+const LatestUsers = ({ users }: { users: unknown }) => {
     return (
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
             <h3 className="text-lg font-semibold">მომხმარებლები</h3>
@@ -140,4 +140,4 @@ const UsersList = ({ users }: { users: unknown }) => {
     );
 };
 
-export default UsersList;
+export default LatestUsers;
