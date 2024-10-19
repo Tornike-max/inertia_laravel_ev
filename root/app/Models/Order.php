@@ -32,4 +32,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function tow_truck()
+    {
+        return $this->belongsTo(TowTruck::class);
+    }
 }

@@ -66,9 +66,9 @@ export default function Dashboard({ auth, services, ourMission }: PageProps) {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                             {services?.map((service: Service) => (
                                 <ServiceCard
-                                    key={service.id}
-                                    title={service.name}
-                                    description={service.description}
+                                    key={service?.id}
+                                    title={service?.name}
+                                    description={service?.description}
                                     link="/services"
                                 />
                             ))}
@@ -106,9 +106,9 @@ export default function Dashboard({ auth, services, ourMission }: PageProps) {
                         <div className="mt-6 space-y-6">
                             {feedbacks?.map((feedback: Feedbacks) => (
                                 <Testimonial
-                                    key={feedback.id}
-                                    name={feedback.author.name}
-                                    feedback={feedback.content}
+                                    key={feedback?.id}
+                                    name={feedback?.author?.name}
+                                    feedback={feedback?.content}
                                 />
                             ))}
                         </div>

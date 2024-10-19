@@ -70,6 +70,45 @@ interface Pagination<T> {
     total: number;
 }
 
+export interface Order {
+    id: number;
+    user_id: number;
+    vehicle_id: number;
+    tow_truck_id: number;
+    order_date: string;
+    completion_date: string;
+    pickup_location: string;
+    dropoff_location: string;
+    price: number;
+    status: "pending" | "in_progress" | "completed";
+    order_details: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Vehicle {
+    id: number;
+    user_id: number;
+    make: string;
+    model: string;
+    year: string;
+    kg: string;
+    license_plate: string;
+    color: string;
+    created_at: string;
+    updated_at: string;
+}
+
+interface TowTruck {
+    id: number;
+    truck_number: string;
+    driver_name: string;
+    location: string;
+    availability_status: string;
+    created_at: string;
+    updated_at: string;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
@@ -81,10 +120,13 @@ export type PageProps<
     ourMission?: {
         ourMission: string;
     };
-    about: About;
-    questions: FAQsByCategory;
-    question: FAQ;
+    about?: About;
+    questions?: FAQsByCategory;
+    question?: FAQ;
     user: User;
+    order: Order;
+    vehicle?: Vehicle;
+    evacuator?: TowTruck;
     usersCount?: number;
     evacuatorsCount?: number;
     ordersCount?: number;

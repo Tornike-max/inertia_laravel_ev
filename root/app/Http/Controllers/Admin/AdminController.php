@@ -94,4 +94,22 @@ class AdminController extends Controller
             'orders' => $orders
         ]);
     }
+
+    public function editOrder(Order $order)
+    {
+        $createdBy = $order->user;
+        $vehicle = $order->vehicle;
+        $towTruck = $order->tow_truck;
+        return inertia('Admin/Orders/EditOrder', [
+            'order' => $order,
+            'vehicle' => $vehicle,
+            'user' => $createdBy,
+            'evacuator' => $towTruck
+        ]);
+    }
+
+    public function updateOrder(Order $order)
+    {
+        dd($order);
+    }
 }
