@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { User } from "@/types";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import {
     HiEllipsisVertical,
     HiOutlineEye,
@@ -9,9 +9,20 @@ import {
     HiOutlineTrash,
 } from "react-icons/hi2";
 import Dropdown from "./Dropdown";
+import toast from "react-hot-toast";
 
 const UsersList = ({ users }: { users: unknown }) => {
-    console.log(users);
+    const { delete: destroy, processing, data } = useForm();
+    const handleSubmit = (id: number) => {
+        destroy(route("admin.users.delete", id), {
+            onSuccess: () => {
+                toast.success("მომხმარებელი წარმატებით წაიშალა.");
+            },
+            onError: () => {
+                toast.error("დაფიქსირდა შეცდომა! თავიდან სცადეთ.");
+            },
+        });
+    };
     return (
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
             <h3 className="text-lg font-semibold">მომხმარებლები</h3>
@@ -97,13 +108,19 @@ const UsersList = ({ users }: { users: unknown }) => {
                                                     <HiOutlinePencil className="text-xl" />
                                                     <span>შესწორება</span>
                                                 </Dropdown.Link>
-                                                <Dropdown.Link
-                                                    href={""}
-                                                    className="flex items-center justify-start gap-2"
+                                                <form
+                                                    onSubmit={() =>
+                                                        handleSubmit(user.id)
+                                                    }
                                                 >
-                                                    <HiOutlineTrash className="text-xl" />
-                                                    <span>წაშლა</span>
-                                                </Dropdown.Link>
+                                                    <button
+                                                        type="submit"
+                                                        className="flex items-center justify-start gap-2  w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                                                    >
+                                                        <HiOutlineTrash className="text-xl" />
+                                                        <span>წაშლა</span>
+                                                    </button>
+                                                </form>
                                             </Dropdown.Content>
                                         </Dropdown>
                                     </div>

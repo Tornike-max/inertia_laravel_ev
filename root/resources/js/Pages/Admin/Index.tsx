@@ -3,7 +3,8 @@ import LatestUsers from "@/Components/LatestUsers";
 import VehiclesList from "@/Components/VehiclesTable";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps, User } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 const Index = ({
     auth,
@@ -16,6 +17,18 @@ const Index = ({
     vehicles,
     orders,
 }: PageProps) => {
+    const { delete: destroy, processing } = useForm();
+
+    const handleSubmit = (id: number) => {
+        destroy(route("admin.users.delete", id), {
+            onSuccess: () => {
+                toast.success("მომხმარებელი წარმატებით წაიშალა.");
+            },
+            onError: () => {
+                toast.error("დაფიქსირდა შეცდომა! თავიდან სცადეთ.");
+            },
+        });
+    };
     return (
         <AuthenticatedLayout header={true}>
             <Head title="ადმინ-პანელი" />
@@ -44,7 +57,12 @@ const Index = ({
                     <div className="flex justify-center items-center text-center">
                         <div className="mx-auto w-full rounded-lg flex-col gap-y-4  p-6">
                             <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                                <LatestUsers users={users} />
+                                <LatestUsers
+                                    users={users}
+                                    destroy={destroy}
+                                    processing={processing}
+                                    handleSubmit={handleSubmit}
+                                />
                             </dd>
                         </div>
                     </div>

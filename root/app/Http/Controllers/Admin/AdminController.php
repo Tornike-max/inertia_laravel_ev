@@ -63,6 +63,12 @@ class AdminController extends Controller
         return to_route('admin.users.edit', $user->id);
     }
 
+    public function deleteUser(User $user)
+    {
+        $user->delete();
+        return to_route('admin.dashboard');
+    }
+
     //cars
     public function getVehicles()
     {

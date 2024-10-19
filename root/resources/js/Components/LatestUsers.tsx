@@ -11,7 +11,17 @@ import {
 } from "react-icons/hi2";
 import Dropdown from "./Dropdown";
 
-const LatestUsers = ({ users }: { users: unknown }) => {
+const LatestUsers = ({
+    users,
+    destroy,
+    processing,
+    handleSubmit,
+}: {
+    users: unknown;
+    destroy: (url: string, options?: VisitOptions) => void;
+    processing: boolean;
+    handleSubmit: (id: number) => void;
+}) => {
     return (
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
             <h3 className="text-lg font-semibold">მომხმარებლები</h3>
@@ -97,13 +107,19 @@ const LatestUsers = ({ users }: { users: unknown }) => {
                                                     <HiOutlinePencil className="text-xl" />
                                                     <span>შესწორება</span>
                                                 </Dropdown.Link>
-                                                <Dropdown.Link
-                                                    href={""}
-                                                    className="flex items-center justify-start gap-2"
+                                                <form
+                                                    onSubmit={() =>
+                                                        handleSubmit(user.id)
+                                                    }
                                                 >
-                                                    <HiOutlineTrash className="text-xl" />
-                                                    <span>წაშლა</span>
-                                                </Dropdown.Link>
+                                                    <button
+                                                        type="submit"
+                                                        className="flex items-center justify-start gap-2  w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                                                    >
+                                                        <HiOutlineTrash className="text-xl" />
+                                                        <span>წაშლა</span>
+                                                    </button>
+                                                </form>
                                             </Dropdown.Content>
                                         </Dropdown>
                                     </div>
