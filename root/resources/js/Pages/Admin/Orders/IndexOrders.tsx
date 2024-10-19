@@ -106,7 +106,10 @@ const IndexOrders = ({ auth, orders }: PageProps) => {
 
                                                         <Dropdown.Content>
                                                             <Dropdown.Link
-                                                                href={"#"}
+                                                                href={route(
+                                                                    "admin.order.show",
+                                                                    order.id
+                                                                )}
                                                                 className="flex items-center justify-start gap-2"
                                                             >
                                                                 <HiOutlineEye className="text-xl" />

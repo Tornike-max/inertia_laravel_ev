@@ -95,11 +95,17 @@ class AdminController extends Controller
         ]);
     }
 
+    public function showOrder(Order $order)
+    {
+        return inertia('Admin/Orders/ShowOrder', compact('order'));
+    }
+
     public function editOrder(Order $order)
     {
         $createdBy = $order->user;
         $vehicle = $order->vehicle;
         $towTruck = $order->tow_truck;
+
         return inertia('Admin/Orders/EditOrder', [
             'order' => $order,
             'vehicle' => $vehicle,
@@ -108,8 +114,19 @@ class AdminController extends Controller
         ]);
     }
 
-    public function updateOrder(Order $order)
+    public function updateOrder(Request $request, Order $order)
     {
-        dd($order);
+        $validatedData = $request->validate([
+            'pickup_location' => 'nullable|string|min:2',
+            'dropoff_location' => 'nullable|string|min:2',
+            'order_details' => 'nullable|string|min:6',
+            'order_date' => 'nullable|date',
+            'completion_date' => 'nullable|date',
+            'price' => 'nullable',
+            'status' => 'nullable|string'
+        ]);
+
+        $order->update($validatedData);
+        return to_route('admin.orders.edit', $order->id);
     }
 }

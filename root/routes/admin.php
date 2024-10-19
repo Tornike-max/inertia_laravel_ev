@@ -15,6 +15,7 @@ Route::get('/admin/user/{user}', [AdminController::class, 'showUser'])->middlewa
 Route::get('/admin/orders', [AdminController::class, 'getOrders'])->middleware('auth')->name('admin.orders');
 Route::get('/admin/orders/{order}/edit', [AdminController::class, 'editOrder'])->middleware('auth')->name('admin.orders.edit');
 Route::put('/admin/orders/update/{order}', [AdminController::class, 'updateOrder'])->middleware('auth')->name('admin.orders.update');
+Route::get('/admin/order/{order}', [AdminController::class, 'showOrder'])->middleware(['auth'])->name('admin.order.show');
 
 Route::get('/admin/vehicles', [AdminController::class, 'getVehicles'])->middleware('auth')->name('admin.vehicles');
 Route::get('/admin/ecavuators', [AdminController::class, 'getEvacuators'])->middleware('auth')->name('admin.evacuators');
