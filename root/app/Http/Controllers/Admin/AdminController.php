@@ -129,4 +129,10 @@ class AdminController extends Controller
         $order->update($validatedData);
         return to_route('admin.orders.edit', $order->id);
     }
+
+    public function deleteOrder(Order $order)
+    {
+        $order->delete();
+        return to_route('admin.orders');
+    }
 }

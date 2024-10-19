@@ -3,7 +3,8 @@
 import Dropdown from "@/Components/Dropdown";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 import {
     HiEllipsisVertical,
@@ -13,6 +14,17 @@ import {
 } from "react-icons/hi2";
 
 const IndexOrders = ({ auth, orders }: PageProps) => {
+    const { delete: destroy, processing } = useForm();
+    const handleSubmit = (id: number) => {
+        destroy(route("admin.order.delete", id), {
+            onSuccess: () => {
+                toast.success("შეკვეთა წარმატებით წაიშალა მონაცემთა ბაზიდან");
+            },
+            onError: () => {
+                toast.error("დაფიქსირდა შეცდომა, გთხოვთ ახლიდან სცადოთ!");
+            },
+        });
+    };
     return (
         <AuthenticatedLayout header={true}>
             <Head title="შეკვეთების ცხრილი" />
@@ -131,10 +143,9 @@ const IndexOrders = ({ auth, orders }: PageProps) => {
                                                             </Dropdown.Link>
                                                             <form
                                                                 onSubmit={() =>
-                                                                    // handleSubmit(
-                                                                    //     user.id
-                                                                    // )
-                                                                    {}
+                                                                    handleSubmit(
+                                                                        order.id
+                                                                    )
                                                                 }
                                                             >
                                                                 <button
@@ -143,7 +154,9 @@ const IndexOrders = ({ auth, orders }: PageProps) => {
                                                                 >
                                                                     <HiOutlineTrash className="text-xl" />
                                                                     <span>
-                                                                        წაშლა
+                                                                        {processing
+                                                                            ? "დაელოდეთ..."
+                                                                            : "წაშლა"}
                                                                     </span>
                                                                 </button>
                                                             </form>
