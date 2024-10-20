@@ -7,6 +7,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { error } from "console";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
 
 const EditOrder = ({ auth, order, user, vehicle, evacuator }: PageProps) => {
     const { errors, setData, data, put, processing } = useForm({
@@ -26,7 +27,14 @@ const EditOrder = ({ auth, order, user, vehicle, evacuator }: PageProps) => {
         <AuthenticatedLayout header={true}>
             <Head title="შეკვეთების ცხრილი" />
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-2">
+                    <Link
+                        className="py-1 px-2 rounded-lg font-serif border border-teal hover:bg-teal hover:text-slate-50 duration-300 transition-all ease-in-out flex items-center justify-center gap-1 w-[110px]"
+                        href={route("admin.orders")}
+                    >
+                        {" "}
+                        <HiOutlineArrowLeft /> <span>უკან</span>
+                    </Link>
                     <h3 className="text-lg font-semibold">
                         შეკვეთის შესწორება
                     </h3>

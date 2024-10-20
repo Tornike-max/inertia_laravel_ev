@@ -69,14 +69,7 @@ class AdminController extends Controller
         return to_route('admin.dashboard');
     }
 
-    //cars
-    public function getVehicles()
-    {
-        $vehicles = Vehicle::query()->latest()->paginate(10);
-        return inertia('Admin/Vehicles/IndexVehicles', [
-            'vehicles' => $vehicles
-        ]);
-    }
+
 
     //evacuators
     public function getEvacuators()
@@ -134,5 +127,35 @@ class AdminController extends Controller
     {
         $order->delete();
         return to_route('admin.orders');
+    }
+
+    //vehicles
+    public function getVehicles()
+    {
+        $vehicles = Vehicle::query()->with('user')->latest()->paginate(10);
+
+        return inertia('Admin/Vehicles/IndexVehicles', [
+            'vehicles' => $vehicles
+        ]);
+    }
+
+    public function editVehicle(Vehicle $vehicle)
+    {
+        return inertia('Admin/Vehicles/EditVehicle', compact('vehicle'));
+    }
+
+    public function updateVehicle(Request $request, Vehicle $vehicle)
+    {
+        $validatedData = $request->validate([
+            'make' => 'nullable|string|min:2',
+            'model' => 'nullable|string|min:2',
+            'year' => 'nullable',
+            'kg' => 'nullable',
+            'license_plate' => 'nullable',
+            'color' => 'nullable'
+        ]);
+
+        $vehicle->update($validatedData);
+        return to_route('admin.vehicles.edit', $vehicle->id);
     }
 }

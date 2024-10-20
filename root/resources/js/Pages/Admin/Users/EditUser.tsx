@@ -7,6 +7,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, Link, router, useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
 
 const EditUser = ({ auth, user }: PageProps) => {
     const { data, setData, put, processing, errors, reset } = useForm({
@@ -31,10 +32,11 @@ const EditUser = ({ auth, user }: PageProps) => {
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
                     <Link
-                        className="py-2 px-3 rounded-lg font-serif border border-teal hover:bg-teal hover:text-slate-50 duration-300 transition-all ease-in-out"
+                        className="py-1 px-2 rounded-lg font-serif border border-teal hover:bg-teal hover:text-slate-50 duration-300 transition-all ease-in-out flex items-center justify-center gap-1 w-[110px]"
                         href={route("admin.dashboard")}
                     >
-                        უკან დაბრუნება
+                        <HiOutlineArrowLeft />
+                        <span>უკან</span>
                     </Link>
                     <h3 className="text-lg font-semibold">{`${user.name}-ს შესწორება`}</h3>
                     <div className="overflow-hidden border border-gray-200 rounded-lg shadow-md p-6">

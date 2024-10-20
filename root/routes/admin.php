@@ -18,5 +18,9 @@ Route::put('/admin/orders/update/{order}', [AdminController::class, 'updateOrder
 Route::get('/admin/order/{order}', [AdminController::class, 'showOrder'])->middleware(['auth'])->name('admin.order.show');
 Route::delete('/admin/order/delete/{order}', [AdminController::class, 'deleteOrder'])->middleware(['auth'])->name('admin.order.delete');
 
+//vehicles
 Route::get('/admin/vehicles', [AdminController::class, 'getVehicles'])->middleware('auth')->name('admin.vehicles');
+Route::get('/admin/vehicles/{vehicle}/edit', [AdminController::class, 'editVehicle'])->middleware('auth')->name('admin.vehicles.edit');
+Route::put('/admin/vehicles/update/{vehicle}', [AdminController::class, 'updateVehicle'])->middleware('auth')->name('admin.vehicles.update');
+
 Route::get('/admin/ecavuators', [AdminController::class, 'getEvacuators'])->middleware('auth')->name('admin.evacuators');
