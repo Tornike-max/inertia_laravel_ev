@@ -23,7 +23,7 @@ const LatestUsers = ({
     handleSubmit: (id: number) => void;
 }) => {
     return (
-        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
+        <div className="mx-auto max-w-7xl space-y-4">
             <h3 className="text-lg font-semibold">მომხმარებლები</h3>
             <div className="overflow-hidden border border-gray-200 rounded-lg shadow-md">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -128,29 +128,29 @@ const LatestUsers = ({
                         ))}
                     </tbody>
                 </table>
-            </div>
-            <div className="flex items-center justify-between mt-4">
-                <div className="flex-1 flex items-center justify-start">
-                    <span className="text-sm text-gray-600">
-                        Showing {users?.from} to {users?.to} of {users?.total}{" "}
-                        users
-                    </span>
+                <div className="flex items-center justify-between mt-4 py-6 px-4">
+                    <div className="flex-1 flex items-center justify-start">
+                        <span className="text-sm text-gray-600">
+                            Showing {users?.from} to {users?.to} of{" "}
+                            {users?.total} users
+                        </span>
+                    </div>
+                    <nav className="flex items-center justify-center space-x-2">
+                        {users?.links.map((link) => (
+                            <Link
+                                key={link.label}
+                                href={link.url || "#"}
+                                className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 ease-in-out flex items-center ${
+                                    link.active
+                                        ? "bg-teal text-slate-100 border-teal-500"
+                                        : "text-slate-800  border-gray-300 hover:bg-light"
+                                }`}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
                 </div>
-                <nav className="flex items-center justify-center space-x-2">
-                    {users?.links.map((link) => (
-                        <Link
-                            key={link.label}
-                            href={link.url || "#"}
-                            className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 ease-in-out flex items-center ${
-                                link.active
-                                    ? "bg-teal-500 text-white border-teal-500"
-                                    : "text-teal-500 border-gray-300 hover:bg-teal-100"
-                            }`}
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
-                </nav>
             </div>
         </div>
     );

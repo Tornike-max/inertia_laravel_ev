@@ -53,38 +53,16 @@ const Index = ({
                     </div>
                 </div>
 
-                <div className="bg-light hover:bg-teal mx-auto max-w-7xl duration-200 transition-all ease-in-out rounded-lg shadow-inner">
-                    <div className="flex justify-center items-center text-center">
-                        <div className="mx-auto w-full rounded-lg flex-col gap-y-4  p-6">
-                            <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                                <LatestUsers
-                                    users={users}
-                                    destroy={destroy}
-                                    processing={processing}
-                                    handleSubmit={handleSubmit}
-                                />
-                            </dd>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-light hover:bg-teal mx-auto max-w-7xl duration-200 transition-all ease-in-out rounded-lg shadow-inner">
-                    <div className="flex justify-center items-center text-center">
-                        <div className="mx-auto w-full rounded-lg flex-col gap-y-4  p-6">
-                            <dd className=" text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                                <VehiclesList vehicles={vehicles} />
-                            </dd>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-light hover:bg-teal mx-auto max-w-7xl duration-200 transition-all ease-in-out rounded-lg shadow-inner">
-                    <div className="flex justify-center items-center text-center">
-                        <div className="mx-auto w-full rounded-lg flex-col gap-y-4  p-6">
-                            <dd className=" text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-                                <VehiclesList vehicles={vehicles} />
-                            </dd>
-                        </div>
-                    </div>
-                </div>
+                <LatestUsers
+                    users={users}
+                    destroy={destroy}
+                    processing={processing}
+                    handleSubmit={handleSubmit}
+                />
+
+                <VehiclesList vehicles={vehicles} />
+
+                <VehiclesList vehicles={vehicles} />
             </div>
         </AuthenticatedLayout>
     );

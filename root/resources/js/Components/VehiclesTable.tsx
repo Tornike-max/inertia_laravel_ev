@@ -11,10 +11,11 @@ import Dropdown from "./Dropdown";
 import { ReactElement, JSXElementConstructor, ReactNode, Key } from "react";
 
 const VehiclesTable = ({ vehicles }: { vehicles: unknown }) => {
-    console.log(vehicles);
     return (
-        <div className="mx-auto max-w-7xl w-full sm:px-6 lg:px-8 space-y-8">
-            <h3 className="text-lg font-semibold">მომხმარებლები</h3>
+        <div className="mx-auto max-w-7xl w-full">
+            <h3 className="text-2xl font-semibold my-4 text-center">
+                მანქანები
+            </h3>
             <div className="overflow-hidden border border-gray-200 rounded-xl shadow-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -102,43 +103,42 @@ const VehiclesTable = ({ vehicles }: { vehicles: unknown }) => {
                         )}
                     </tbody>
                 </table>
-            </div>
-
-            <div className="flex items-center justify-between mt-6">
-                <div className="text-sm text-gray-600">
-                    Showing {vehicles?.from} to {vehicles?.to} of{" "}
-                    {vehicles?.total} vehicles
+                <div className="flex items-center justify-between py-6 px-4 mt-6">
+                    <div className="text-sm text-gray-600">
+                        Showing {vehicles?.from} to {vehicles?.to} of{" "}
+                        {vehicles?.total} vehicles
+                    </div>
+                    <nav className="flex items-center justify-center space-x-2">
+                        {vehicles?.links.map(
+                            (link: {
+                                label:
+                                    | boolean
+                                    | ReactElement<
+                                          any,
+                                          string | JSXElementConstructor<any>
+                                      >
+                                    | Iterable<ReactNode>
+                                    | Key
+                                    | null
+                                    | undefined;
+                                url: any;
+                                active: any;
+                            }) => (
+                                <Link
+                                    key={link.label}
+                                    href={link.url || "#"}
+                                    className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 ease-in-out flex items-center ${
+                                        link.active
+                                            ? "bg-teal text-slate-100 border-teal-500"
+                                            : "text-slate-800  border-gray-300 hover:bg-light"
+                                    }`}
+                                >
+                                    {link.label}
+                                </Link>
+                            )
+                        )}
+                    </nav>
                 </div>
-                <nav className="flex items-center justify-center space-x-2">
-                    {vehicles?.links.map(
-                        (link: {
-                            label:
-                                | boolean
-                                | ReactElement<
-                                      any,
-                                      string | JSXElementConstructor<any>
-                                  >
-                                | Iterable<ReactNode>
-                                | Key
-                                | null
-                                | undefined;
-                            url: any;
-                            active: any;
-                        }) => (
-                            <Link
-                                key={link.label}
-                                href={link.url || "#"}
-                                className={`px-4 py-2 border rounded-full text-sm font-medium transition-colors duration-200 ease-in-out flex items-center ${
-                                    link.active
-                                        ? "bg-teal-500 text-white border-teal-500"
-                                        : "text-teal-500 border-gray-300 hover:bg-teal-100"
-                                }`}
-                            >
-                                {link.label}
-                            </Link>
-                        )
-                    )}
-                </nav>
             </div>
         </div>
     );

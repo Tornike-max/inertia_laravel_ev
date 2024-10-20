@@ -14,7 +14,12 @@ import {
 } from "react-icons/hi2";
 
 const IndexOrders = ({ auth, orders }: PageProps) => {
-    const { delete: destroy, processing } = useForm();
+    const { delete: destroy, processing } = useForm(
+        {},
+        {
+            preserveState: true,
+        }
+    );
     const handleSubmit = (id: number) => {
         destroy(route("admin.order.delete", id), {
             onSuccess: () => {
@@ -169,35 +174,35 @@ const IndexOrders = ({ auth, orders }: PageProps) => {
                                 )}
                             </tbody>
                         </table>
-                    </div>
-                    <div className="flex items-center justify-between mt-4">
-                        <div className="flex-1 flex items-center justify-start">
-                            <span className="text-sm text-gray-600">
-                                Showing {orders?.from} to {orders?.to} of{" "}
-                                {orders?.total} orders
-                            </span>
+                        <div className="flex items-center justify-between mt-4 py-6 px-4">
+                            <div className="flex-1 flex items-center justify-start">
+                                <span className="text-sm text-gray-600">
+                                    Showing {orders?.from} to {orders?.to} of{" "}
+                                    {orders?.total} orders
+                                </span>
+                            </div>
+                            <nav className="flex items-center justify-center space-x-2">
+                                {orders?.links.map(
+                                    (link: {
+                                        url: string;
+                                        active: boolean;
+                                        label: string;
+                                    }) => (
+                                        <Link
+                                            key={link.label}
+                                            href={link.url || "#"}
+                                            className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 ease-in-out flex items-center ${
+                                                link.active
+                                                    ? "bg-teal text-slate-100 border-teal-500"
+                                                    : "text-slate-800  border-gray-300 hover:bg-light"
+                                            }`}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    )
+                                )}
+                            </nav>
                         </div>
-                        <nav className="flex items-center justify-center space-x-2">
-                            {orders?.links.map(
-                                (link: {
-                                    url: string;
-                                    active: boolean;
-                                    label: string;
-                                }) => (
-                                    <Link
-                                        key={link.label}
-                                        href={link.url || "#"}
-                                        className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 ease-in-out flex items-center ${
-                                            link.active
-                                                ? "bg-teal-500 text-white border-teal-500"
-                                                : "text-teal-500 border-gray-300 hover:bg-teal-100"
-                                        }`}
-                                    >
-                                        {link.label}
-                                    </Link>
-                                )
-                            )}
-                        </nav>
                     </div>
                 </div>
             </div>
