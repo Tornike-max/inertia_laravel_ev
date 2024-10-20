@@ -69,17 +69,6 @@ class AdminController extends Controller
         return to_route('admin.dashboard');
     }
 
-
-
-    //evacuators
-    public function getEvacuators()
-    {
-        $evacuators = Vehicle::query()->latest()->paginate(10);
-        return inertia('Admin/Evacuators/IndexEvacuators', [
-            'evacuators' => $evacuators
-        ]);
-    }
-
     public function getOrders()
     {
         $orders = Order::query()->latest()->paginate(10);
@@ -157,5 +146,43 @@ class AdminController extends Controller
 
         $vehicle->update($validatedData);
         return to_route('admin.vehicles.edit', $vehicle->id);
+    }
+
+    public function showVehicle(Vehicle $vehicle)
+    {
+        return inertia('Admin/Vehicles/ShowVehicle', compact('vehicle'));
+    }
+
+    public function deleteVehicle(Vehicle $vehicle)
+    {
+        $vehicle->delete();
+        return to_route('admin.vehicles');
+    }
+
+    //evacuators
+    public function getEvacuators()
+    {
+        $evacuators = TowTruck::query()->latest()->paginate(10);
+        return inertia('Admin/Evacuators/IndexEvacuators', [
+            'evacuators' => $evacuators
+        ]);
+    }
+
+    public function editEvacuator(TowTruck $evacuator)
+    {
+        return inertia('Admin/Evacuators/EditEvacuator', compact('evacuator'));
+    }
+
+    public function updateEvacuator(Request $request, TowTruck $evacuator)
+    {
+        $validatedData = $request->validate([
+            'driver_name' => 'nullable|string|min:2',
+            'truck_number' => 'nullable|string|min:2',
+            'availability_status' => 'nullable|string',
+            'location' => 'nullable|string'
+        ]);
+
+        $evacuator->update($validatedData);
+        return to_route('admin.evacuator.edit', $evacuator->id);
     }
 }

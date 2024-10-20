@@ -22,5 +22,10 @@ Route::delete('/admin/order/delete/{order}', [AdminController::class, 'deleteOrd
 Route::get('/admin/vehicles', [AdminController::class, 'getVehicles'])->middleware('auth')->name('admin.vehicles');
 Route::get('/admin/vehicles/{vehicle}/edit', [AdminController::class, 'editVehicle'])->middleware('auth')->name('admin.vehicles.edit');
 Route::put('/admin/vehicles/update/{vehicle}', [AdminController::class, 'updateVehicle'])->middleware('auth')->name('admin.vehicles.update');
+Route::get('/admin/vehicle/{vehicle}', [AdminController::class, 'showVehicle'])->middleware(['auth'])->name('admin.vehicle.show');
+Route::delete('/admin/vehicle/delete/{vehicle}', [AdminController::class, 'deleteVehicle'])->middleware(['auth'])->name('admin.vehicle.delete');
 
+//evacuators
 Route::get('/admin/ecavuators', [AdminController::class, 'getEvacuators'])->middleware('auth')->name('admin.evacuators');
+Route::get('/admin/evacuators/{evacuator}/edit', [AdminController::class, 'editEvacuator'])->middleware('auth')->name('admin.evacuator.edit');
+Route::put('/admin/evacuators/update/{evacuator}', [AdminController::class, 'updateEvacuator'])->middleware('auth')->name('admin.evacuator.update');

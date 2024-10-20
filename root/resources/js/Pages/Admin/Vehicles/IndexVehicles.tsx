@@ -12,6 +12,7 @@ import {
     Key,
     ReactPortal,
 } from "react";
+import toast from "react-hot-toast";
 import {
     HiEllipsisVertical,
     HiOutlineEye,
@@ -20,9 +21,18 @@ import {
 } from "react-icons/hi2";
 
 const IndexVehicles = ({ auth, vehicles }: PageProps) => {
-    const { processing, data, setData } = useForm();
+    const { processing, data, setData, delete: destroy } = useForm();
 
-    const handleSubmit = (id: number) => {};
+    const handleSubmit = (id: number) => {
+        destroy(route("admin.vehicle.delete", id), {
+            onSuccess: () => {
+                toast.success("მანქანა წარმატებით წაიშალა");
+            },
+            onError: () => {
+                toast.error("დაფიქსირდა შეცდომა, თავიდან სცადეთ");
+            },
+        });
+    };
     console.log(vehicles);
     return (
         <AuthenticatedLayout header={true}>
@@ -105,7 +115,10 @@ const IndexVehicles = ({ auth, vehicles }: PageProps) => {
 
                                                         <Dropdown.Content>
                                                             <Dropdown.Link
-                                                                href={"#"}
+                                                                href={route(
+                                                                    "admin.vehicle.show",
+                                                                    vehicle?.id
+                                                                )}
                                                                 className="flex items-center justify-start gap-2"
                                                             >
                                                                 <HiOutlineEye className="text-xl" />

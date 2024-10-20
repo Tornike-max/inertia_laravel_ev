@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TowTruck extends Model
 {
     use HasFactory;
+    protected $fillable = ['driver_name', 'truck_number', 'availability_status', 'location'];
     protected $table = 'tow_trucks';
 }
