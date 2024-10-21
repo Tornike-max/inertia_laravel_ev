@@ -21,16 +21,17 @@ const IndexEvacuators = ({ auth, evacuators }: PageProps) => {
         }
     );
     const handleSubmit = (id: number) => {
-        // destroy(route("admin.order.delete", id), {
-        //     onSuccess: () => {
-        //         toast.success("შეკვეთა წარმატებით წაიშალა მონაცემთა ბაზიდან");
-        //     },
-        //     onError: () => {
-        //         toast.error("დაფიქსირდა შეცდომა, გთხოვთ ახლიდან სცადოთ!");
-        //     },
-        // });
+        destroy(route("admin.evacuator.delete", id), {
+            onSuccess: () => {
+                toast.success(
+                    "ევაკუატორი წარმატებით წაიშალა მონაცემთა ბაზიდან"
+                );
+            },
+            onError: () => {
+                toast.error("დაფიქსირდა შეცდომა, გთხოვთ ახლიდან სცადოთ!");
+            },
+        });
     };
-    console.log(evacuators);
     return (
         <AuthenticatedLayout header={true}>
             <Head title="ევაკუატორების ცხრილი" />
@@ -98,7 +99,10 @@ const IndexEvacuators = ({ auth, evacuators }: PageProps) => {
 
                                                     <Dropdown.Content>
                                                         <Dropdown.Link
-                                                            href={"#"}
+                                                            href={route(
+                                                                "admin.evacuator.show",
+                                                                evacuator?.id
+                                                            )}
                                                             className="flex items-center justify-start gap-2"
                                                         >
                                                             <HiOutlineEye className="text-xl" />
@@ -107,7 +111,7 @@ const IndexEvacuators = ({ auth, evacuators }: PageProps) => {
                                                         <Dropdown.Link
                                                             href={route(
                                                                 "admin.evacuator.edit",
-                                                                evacuator.id
+                                                                evacuator?.id
                                                             )}
                                                             className="flex items-center justify-start gap-2"
                                                         >

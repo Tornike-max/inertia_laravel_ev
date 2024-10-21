@@ -185,4 +185,14 @@ class AdminController extends Controller
         $evacuator->update($validatedData);
         return to_route('admin.evacuator.edit', $evacuator->id);
     }
+
+    public function showEvacuator(TowTruck $evacuator)
+    {
+        return inertia('Admin/Evacuators/ShowEvacuator', compact('evacuator'));
+    }
+
+    public function deleteEvacuator(TowTruck $evacuator)
+    {
+        dd($evacuator);
+    }
 }
