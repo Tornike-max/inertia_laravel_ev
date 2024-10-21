@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\About\AboutController;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\order\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Questions\QuestionController;
 use App\Http\Controllers\Service\ServiceController;
@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/payment/stripe', [PaymentController::class, 'createForm'])->middleware('auth');
+Route::post('/api/create-payment-intent', [PaymentController::class, 'create']);
+Route::post('/payment/success', [PaymentController::class, 'success']);
 
 require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';
