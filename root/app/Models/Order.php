@@ -20,7 +20,8 @@ class Order extends Model
         'status',
         'user_id',
         'tow_truck_id',
-        'vehicle_id'
+        'vehicle_id',
+        'payed'
     ];
 
     public function vehicle()

@@ -39,12 +39,6 @@ const OrderForm = ({
         post(route("order"));
     };
 
-    const vehicleTypes = [
-        { value: "motorcycle", label: "მოტოციკლი" },
-        { value: "sedan", label: "სედანი" },
-        { value: "heavy_equipment", label: "მძიმე ტექნიკა" },
-    ];
-
     const price = services.find((item) => item.name === data.type);
 
     return (
@@ -229,7 +223,7 @@ const OrderForm = ({
                     className="w-full flex justify-center items-center  hover:bg-teal"
                     disabled={processing}
                 >
-                    {processing ? "Loading..." : "გამოძახება"}
+                    {processing ? "Loading..." : "გადახდა"}
                 </PrimaryButton>
             </div>
         </form>

@@ -35,9 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/payment/stripe', [PaymentController::class, 'createForm'])->middleware('auth');
-Route::post('/api/create-payment-intent', [PaymentController::class, 'create']);
-Route::post('/payment/success', [PaymentController::class, 'success']);
+
+Route::post('/create-payment-intent/{order}', [PaymentController::class, 'createPaymentIntent'])->name('payment.try');
+
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+Route::get('/payment/form/{order}', [PaymentController::class, 'showForm'])->name('payment.form');
 
 require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';

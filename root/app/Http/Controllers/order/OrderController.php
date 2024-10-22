@@ -28,8 +28,6 @@ class OrderController extends Controller
             'license_plate' => 'required|string|unique:vehicles,license_plate,NULL,id,user_id,' . Auth::user()->id,
         ]);
 
-        dd($validatedData);
-
         $vehicleDetails = [
             'user_id' => Auth::user()->id,
             'model' => $validatedData['model'],
@@ -68,11 +66,7 @@ class OrderController extends Controller
         $order = Order::create($orderDetails);
 
         if (isset($order)) {
-            return inertia(route('dashboard'), [
-                'status' => '200 ok',
-                'message' => 'Order Created Successfully',
-                'data' => $order
-            ]);
+            return to_route('payment.form', $order->id);
         };
 
         abort(500);

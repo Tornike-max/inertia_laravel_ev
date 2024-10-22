@@ -2,46 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
-use Stripe\PaymentIntent;
 use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
-
-    public function createForm()
+    public function createPaymentIntent(Request $request, Order $order)
     {
-        return inertia('CheckOut/CheckoutForm');
-    }
-    public function create(Request $request)
-    {
-        Stripe::setApiKey(env('STRIPE_SECRET')); // Stripe-ის საიდუმლო API გასაღები
-
-        // PaymentIntent-ის შექმნა
-        $paymentIntent = PaymentIntent::create([
-            'amount' => 1000, // თანხა ლარებში (10.00 ლარი)
-            'currency' => 'gel', // ვალუტა
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'name' => 'required|string|min:2'
         ]);
 
-        return response()->json(['clientSecret' => $paymentIntent->client_secret]);
-    }
+        Stripe::setApiKey(env('STRIPE_SECRET'));
 
-    public function success(Request $request)
-    {
-        // ვალიდაციის წარმოება
-        $validator = Validator::make($request->all(), [
-            'paymentIntentId' => 'required|string',
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $request->amount * 100,
+                'currency' => 'usd',
+                'payment_method_types' => ['card'],
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            $order->update(['payed' => 1]);
+
+            return inertia('CheckOut/Success');
+        } catch (\Exception $e) {
+            return inertia('CheckOut/Cancel');
         }
+    }
+    public function success()
+    {
+        return inertia('CheckOut/Success');
+    }
 
-        // აქ შეგიძლიათ შეინახოთ გადახდის ინფორმაცია
-        // მაგალითად, გამოიყენეთ Payment Model
-        // Payment::create([...]);
+    public function cancel()
+    {
+        return inertia('CheckOut/Cancel');
+    }
 
-        return response()->json(['message' => 'Payment succeeded!']);
+    public function showForm(Order $order)
+    {
+        return inertia('CheckOut/Checkout', compact('order'));
     }
 }
