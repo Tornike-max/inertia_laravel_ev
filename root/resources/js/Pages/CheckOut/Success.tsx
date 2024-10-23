@@ -6,10 +6,12 @@ import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { HiOutlineCheckBadge } from "react-icons/hi2";
 
-const Success = ({ auth }: PageProps) => {
+const Success = ({ auth, response }: PageProps) => {
     useEffect(() => {
         toast.success("თქვენ წარმატებით გადაიხადეთ");
     }, []);
+
+    console.log(response);
     return (
         <AuthenticatedLayout
             header={

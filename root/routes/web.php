@@ -36,11 +36,11 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::post('/create-payment-intent/{order}', [PaymentController::class, 'createPaymentIntent'])->name('payment.try');
+Route::get('/checkout/{order}', [PaymentController::class, 'show'])->name('checkout');
+Route::post('/checkout/{order}/process', [PaymentController::class, 'processPayment'])->name('checkout.process');
 
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
-Route::get('/payment/form/{order}', [PaymentController::class, 'showForm'])->name('payment.form');
 
 require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';

@@ -1,78 +1,68 @@
 import { useState } from "react";
-import { CardElement } from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useForm } from "@inertiajs/react";
-import toast from "react-hot-toast";
-import { PageProps } from "@/types";
 
-const CheckoutForm = ({ user, stripe, order }: PageProps) => {
-    const [loading, setLoading] = useState(false);
+const CheckoutForm = ({ order }: { order: any }) => {
+    const stripe = useStripe();
+    const elements = useElements();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const { data, setData, post, get, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         amount: order.price || 0,
         name: "",
+        email: order.user.email || "",
     });
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         setLoading(true);
-        setErrorMessage(null);
+
+        if (!stripe || !elements) {
+            return;
+        }
+
+        const cardElement = elements.getElement(CardElement);
 
         post(route("payment.try", order.id), {
-            onSuccess: (response) => {
-                if (response?.clientSecret) {
-                    confirmPayment(response.clientSecret);
+            onSuccess: async (response) => {
+                const { clientSecret } = response;
+                const { error, paymentIntent } =
+                    await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: {
+                            card: cardElement!,
+                        },
+                    });
+
+                if (error) {
+                    setErrorMessage(
+                        error.message || "Error processing payment"
+                    );
+                    setLoading(false);
+                } else if (paymentIntent?.status === "succeeded") {
+                    alert("Payment successful!");
+                    setLoading(false);
                 }
             },
             onError: () => {
-                setErrorMessage("Error creating payment intent.");
+                setErrorMessage("Payment intent creation failed.");
                 setLoading(false);
             },
-            data: { amount: data.amount },
         });
     };
 
-    const confirmPayment = async (secret: string) => {
-        const { elements } = await stripe;
-
-        const cardElement = elements?.getElement(CardElement);
-        const { error, paymentIntent } = await stripe.confirmCardPayment(
-            secret,
-            {
-                payment_method: {
-                    card: cardElement!,
-                },
-            }
-        );
-
-        if (error) {
-            setErrorMessage(error.message);
-        } else if (paymentIntent && paymentIntent.status === "succeeded") {
-            toast.success("Payment successful!");
-            get(route("payment.success"));
-        }
-        setLoading(false);
-    };
-
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="w-full bg-white rounded-lg shadow-md px-8 pt-6 pb-8 mb-4"
-        >
-            <h2 className="text-2xl font-semibold mb-6 text-center">
-                გადახდის ფორმა
-            </h2>
+        <form onSubmit={handleSubmit}>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                    ბარათის მფლობელი:
+                    Name
                 </label>
                 <input
                     type="text"
                     value={data.name}
                     onChange={(e) => setData("name", e.target.value)}
-                    min="0"
                     required
-                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 ${
                         errors.name ? "border-red-500" : ""
                     }`}
                 />
@@ -84,15 +74,33 @@ const CheckoutForm = ({ user, stripe, order }: PageProps) => {
             </div>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                    თანხა (USD):
+                    Email
+                </label>
+                <input
+                    type="email"
+                    value={data.email}
+                    onChange={(e) => setData("email", e.target.value)}
+                    required
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 ${
+                        errors.email ? "border-red-500" : ""
+                    }`}
+                />
+                {errors.email && (
+                    <div className="text-red-500 text-xs mt-1">
+                        {errors.email}
+                    </div>
+                )}
+            </div>
+            <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Amount
                 </label>
                 <input
                     type="number"
                     value={data.amount}
                     onChange={(e) => setData("amount", e.target.value)}
-                    min="0"
                     required
-                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                    className={`shadow appearance-none border rounded w-full py-2 px-3 ${
                         errors.amount ? "border-red-500" : ""
                     }`}
                 />
@@ -104,7 +112,7 @@ const CheckoutForm = ({ user, stripe, order }: PageProps) => {
             </div>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                    კრედიტული/დებეტური ბარათი:
+                    Card details
                 </label>
                 <CardElement className="border rounded py-2 px-3" />
                 {errorMessage && (
@@ -115,12 +123,12 @@ const CheckoutForm = ({ user, stripe, order }: PageProps) => {
             </div>
             <button
                 type="submit"
-                disabled={!stripe || loading || processing}
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                disabled={loading || processing}
+                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
                     loading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
             >
-                {loading ? "Processing..." : "გადახდა"}
+                {loading ? "Processing..." : "Pay"}
             </button>
         </form>
     );

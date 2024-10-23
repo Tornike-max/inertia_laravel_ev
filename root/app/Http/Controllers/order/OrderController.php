@@ -15,6 +15,7 @@ class OrderController extends Controller
 {
     public function store(Request $request)
     {
+        // Validate order data
         $validatedData = $request->validate([
             'pickup_location' => 'required|string|min:2',
             'dropoff_location' => 'required|string|min:2',
@@ -28,6 +29,7 @@ class OrderController extends Controller
             'license_plate' => 'required|string|unique:vehicles,license_plate,NULL,id,user_id,' . Auth::user()->id,
         ]);
 
+        // Create vehicle record
         $vehicleDetails = [
             'user_id' => Auth::user()->id,
             'model' => $validatedData['model'],
@@ -35,7 +37,7 @@ class OrderController extends Controller
             'year' => $validatedData['year'],
             'kg' => $validatedData['kg'],
             'color' => $validatedData['color'] ?? '',
-            'license_plate' => $validatedData['license_plate']
+            'license_plate' => $validatedData['license_plate'],
         ];
 
         $vehicle = Vehicle::create($vehicleDetails);
@@ -44,12 +46,13 @@ class OrderController extends Controller
             throw ValidationException::withMessages(['error' => 'Unable to create vehicle record']);
         }
 
-        $towTrucks = TowTruck::query()->where('location', '=', $validatedData['pickup_location'])->first();
-
+        // Find available tow truck
+        $towTrucks = TowTruck::where('location', $validatedData['pickup_location'])->first();
         if (!$towTrucks) {
-            return back()->withErrors(['error' => 'სამწუხაროდ, არცერთი ევაკუატორი არ არის ხელმისაწვდომი მითითებულ მისამართზე']);
+            return back()->withErrors(['error' => 'No available tow truck at the specified address']);
         }
 
+        // Create order record
         $orderDetails = [
             'pickup_location' => $validatedData['pickup_location'],
             'dropoff_location' => $validatedData['dropoff_location'],
@@ -60,16 +63,12 @@ class OrderController extends Controller
             'status' => 'pending',
             'user_id' => Auth::user()->id,
             'tow_truck_id' => $towTrucks->id,
-            'vehicle_id' => $vehicle->id
+            'vehicle_id' => $vehicle->id,
         ];
 
         $order = Order::create($orderDetails);
 
-        if (isset($order)) {
-            return to_route('payment.form', $order->id);
-        };
-
-        abort(500);
+        return redirect()->route('checkout', $order->id);
     }
 
     private function calculatePrice($vehicleType)

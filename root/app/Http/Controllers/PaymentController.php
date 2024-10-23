@@ -4,46 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
+    public function show(Order $order)
+    {
+        return inertia('Checkout', [
+            'order' => $order,
+        ]);
+    }
     public function createPaymentIntent(Request $request, Order $order)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'amount' => 'required|numeric|min:1',
-            'name' => 'required|string|min:2'
+            'email' => 'required|email',
         ]);
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         try {
             $paymentIntent = PaymentIntent::create([
-                'amount' => $request->amount * 100,
+                'amount' => $validatedData['amount'] * 100,
                 'currency' => 'usd',
                 'payment_method_types' => ['card'],
+                'receipt_email' => $validatedData['email'],
             ]);
 
-            $order->update(['payed' => 1]);
-
-            return inertia('CheckOut/Success');
+            return response()->json([
+                'clientSecret' => $paymentIntent->client_secret,
+            ], 200);
         } catch (\Exception $e) {
-            return inertia('CheckOut/Cancel');
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-    }
-    public function success()
-    {
-        return inertia('CheckOut/Success');
-    }
-
-    public function cancel()
-    {
-        return inertia('CheckOut/Cancel');
-    }
-
-    public function showForm(Order $order)
-    {
-        return inertia('CheckOut/Checkout', compact('order'));
     }
 }

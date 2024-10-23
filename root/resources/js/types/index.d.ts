@@ -84,6 +84,7 @@ export interface Order {
     order_details: string;
     created_at: string;
     updated_at: string;
+    user: User;
 }
 
 export interface Vehicle {
@@ -131,4 +132,5 @@ export type PageProps<
     evacuatorsCount?: number;
     ordersCount?: number;
     vehiclesCount?: number;
+    payment_secret_key?: string;
 };

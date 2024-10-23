@@ -3,34 +3,49 @@ import { Head, useForm } from "@inertiajs/react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { PageProps } from "@/types";
 import CheckoutForm from "@/Components/CheckoutForm";
+import { Order } from "@/types";
 
 const stripePromise = loadStripe(
-    "pk_test_51QCkZyAhKAVI5G3XUBlMTIMUSifoqpvCJU2xPshw3Wc8W4knPPMKrmzrIzq7WD3xnTAObHuBuPyHaiabiBrLgsfH005iDY1Qex"
+    "pk_test_51OlqzLAsljxtDLDChC8F1KvaW2GTUGa8upKSAlXw00lYgUWmNmsYfpVDY3nNYcOhKcYhkbkPwaQQfN41GpRnU43900scGN4DYi"
 );
 
-const Checkout = ({ auth, order }: PageProps) => {
+const Checkout = ({ order }: { order: Order }) => {
+    const [clientSecret, setClientSecret] = useState<string | null>(null);
+
+    useEffect(() => {
+        fetch(route("payment.try", order.id), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                amount: order.price,
+                email: order?.user?.email,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => setClientSecret(data.clientSecret));
+    }, [order]);
+
+    const options = {
+        clientSecret,
+    };
+
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-2xl font-semibold leading-tight text-gray-900">
-                    გადაიხადეთ თანხა
+                    გადახდა
                 </h2>
             }
         >
-            <Head title="გადაიხადეთ თანხა" />
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl w-full sm:px-6 lg:px-8">
-                    <Elements stripe={stripePromise}>
-                        <CheckoutForm
-                            user={auth.user}
-                            stripe={stripePromise}
-                            order={order}
-                        />
-                    </Elements>
-                </div>
-            </div>
+            <Head title="გადახდა" />
+            {clientSecret && (
+                <Elements stripe={stripePromise} options={options}>
+                    <CheckoutForm order={order} />
+                </Elements>
+            )}
         </AuthenticatedLayout>
     );
 };
