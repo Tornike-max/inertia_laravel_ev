@@ -36,7 +36,7 @@ const OrderForm = ({
             return;
         }
 
-        post(route("order"));
+        post(route("payment.checkout"));
     };
 
     const price = services.find((item) => item.name === data.type);

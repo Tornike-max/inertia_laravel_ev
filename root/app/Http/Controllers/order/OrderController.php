@@ -15,7 +15,6 @@ class OrderController extends Controller
 {
     public function store(Request $request)
     {
-        // Validate order data
         $validatedData = $request->validate([
             'pickup_location' => 'required|string|min:2',
             'dropoff_location' => 'required|string|min:2',
@@ -29,7 +28,6 @@ class OrderController extends Controller
             'license_plate' => 'required|string|unique:vehicles,license_plate,NULL,id,user_id,' . Auth::user()->id,
         ]);
 
-        // Create vehicle record
         $vehicleDetails = [
             'user_id' => Auth::user()->id,
             'model' => $validatedData['model'],
@@ -46,13 +44,12 @@ class OrderController extends Controller
             throw ValidationException::withMessages(['error' => 'Unable to create vehicle record']);
         }
 
-        // Find available tow truck
         $towTrucks = TowTruck::where('location', $validatedData['pickup_location'])->first();
+
         if (!$towTrucks) {
             return back()->withErrors(['error' => 'No available tow truck at the specified address']);
         }
 
-        // Create order record
         $orderDetails = [
             'pickup_location' => $validatedData['pickup_location'],
             'dropoff_location' => $validatedData['dropoff_location'],
@@ -68,7 +65,9 @@ class OrderController extends Controller
 
         $order = Order::create($orderDetails);
 
-        return redirect()->route('checkout', $order->id);
+        return inertia('CheckOut/Checkout', [
+            'order' => $order,
+        ]);
     }
 
     private function calculatePrice($vehicleType)

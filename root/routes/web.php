@@ -36,11 +36,9 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/checkout/{order}', [PaymentController::class, 'show'])->name('checkout');
-Route::post('/checkout/{order}/process', [PaymentController::class, 'processPayment'])->name('checkout.process');
-
-Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+Route::post('/create-checkout-session', [PaymentController::class, 'createCheckoutSession'])->name('payment.checkout');
+Route::get('/payment-success/{order}', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment-cancel/{order}', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';
