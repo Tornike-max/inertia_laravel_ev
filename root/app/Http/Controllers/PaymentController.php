@@ -89,13 +89,13 @@ class PaymentController extends Controller
 
     public function success(Order $order)
     {
-        $order->update(['status' => 'completed']);
+        $order->update(['status' => 'completed', 'payed' => 1]);
         return inertia('CheckOut/Success', ['order' => $order]);
     }
 
     public function cancel(Order $order)
     {
-        $order->update(['status' => 'cancelled']);
+        $order->update(['status' => 'cancelled', 'payed' => 0]);
         return inertia('CheckOut/Cancel', ['order' => $order]);
     }
 

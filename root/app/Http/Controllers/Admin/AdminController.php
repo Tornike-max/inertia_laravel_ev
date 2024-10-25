@@ -8,11 +8,15 @@ use App\Models\TowTruck;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $usersCount = User::query()->where('status', '!=', 'admin')->latest()->count();
         $vehiclesCount = Vehicle::query()->latest()->count();
         $evacuatorsCount = TowTruck::query()->latest()->count();
@@ -29,6 +33,9 @@ class AdminController extends Controller
     //users
     public function getUsers()
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $users = User::query()->where('status', '!=', 'admin')->latest()->paginate(10);
 
         return inertia('Admin/Users/IndexUsers', [
@@ -38,6 +45,9 @@ class AdminController extends Controller
 
     public function showUser(User $user)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         return inertia('Admin/Users/ShowUser', [
             'user' => $user
         ]);
@@ -45,11 +55,17 @@ class AdminController extends Controller
 
     public function editUser(User $user)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         return inertia('Admin/Users/EditUser', compact('user'));
     }
 
     public function updateUser(Request $request, User $user)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $validatedData = $request->validate([
             'name' => 'nullable|string|min:2',
             'email' => 'nullable|email|min:2',
@@ -65,12 +81,18 @@ class AdminController extends Controller
 
     public function deleteUser(User $user)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $user->delete();
         return to_route('admin.dashboard');
     }
 
     public function getOrders()
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $orders = Order::query()->latest()->paginate(10);
         return inertia('Admin/Orders/IndexOrders', [
             'orders' => $orders
@@ -79,11 +101,17 @@ class AdminController extends Controller
 
     public function showOrder(Order $order)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         return inertia('Admin/Orders/ShowOrder', compact('order'));
     }
 
     public function editOrder(Order $order)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $createdBy = $order->user;
         $vehicle = $order->vehicle;
         $towTruck = $order->tow_truck;
@@ -98,6 +126,9 @@ class AdminController extends Controller
 
     public function updateOrder(Request $request, Order $order)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $validatedData = $request->validate([
             'pickup_location' => 'nullable|string|min:2',
             'dropoff_location' => 'nullable|string|min:2',
@@ -114,6 +145,9 @@ class AdminController extends Controller
 
     public function deleteOrder(Order $order)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $order->delete();
         return to_route('admin.orders');
     }
@@ -121,6 +155,9 @@ class AdminController extends Controller
     //vehicles
     public function getVehicles()
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $vehicles = Vehicle::query()->with('user')->latest()->paginate(10);
 
         return inertia('Admin/Vehicles/IndexVehicles', [
@@ -130,11 +167,17 @@ class AdminController extends Controller
 
     public function editVehicle(Vehicle $vehicle)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         return inertia('Admin/Vehicles/EditVehicle', compact('vehicle'));
     }
 
     public function updateVehicle(Request $request, Vehicle $vehicle)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $validatedData = $request->validate([
             'make' => 'nullable|string|min:2',
             'model' => 'nullable|string|min:2',
@@ -150,11 +193,17 @@ class AdminController extends Controller
 
     public function showVehicle(Vehicle $vehicle)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         return inertia('Admin/Vehicles/ShowVehicle', compact('vehicle'));
     }
 
     public function deleteVehicle(Vehicle $vehicle)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $vehicle->delete();
         return to_route('admin.vehicles');
     }
@@ -162,6 +211,9 @@ class AdminController extends Controller
     //evacuators
     public function getEvacuators()
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $evacuators = TowTruck::query()->latest()->paginate(10);
         return inertia('Admin/Evacuators/IndexEvacuators', [
             'evacuators' => $evacuators
@@ -170,11 +222,17 @@ class AdminController extends Controller
 
     public function editEvacuator(TowTruck $evacuator)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         return inertia('Admin/Evacuators/EditEvacuator', compact('evacuator'));
     }
 
     public function updateEvacuator(Request $request, TowTruck $evacuator)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         $validatedData = $request->validate([
             'driver_name' => 'nullable|string|min:2',
             'truck_number' => 'nullable|string|min:2',
@@ -188,11 +246,18 @@ class AdminController extends Controller
 
     public function showEvacuator(TowTruck $evacuator)
     {
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
         return inertia('Admin/Evacuators/ShowEvacuator', compact('evacuator'));
     }
 
     public function deleteEvacuator(TowTruck $evacuator)
     {
-        dd($evacuator);
+        if (!Gate::allows('is-admin')) {
+            abort(401);
+        }
+        $evacuator->delete();
+        return to_route('admin.dashboard', $evacuator->id);
     }
 }

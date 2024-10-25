@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Questions\QuestionController;
 use App\Http\Controllers\Service\ServiceController;
+use App\Http\Controllers\TowTruck\TowTruckController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//ევაკუატორის შექმნა
+Route::get('/evacuator/create', [TowTruckController::class, 'create'])->name('evacuator.create');
+Route::post('/evacuator/store', [TowTruckController::class, 'store'])->name('evacuator.store');
+Route::get('/payment-success/{towTruck}', [TowTruckController::class, 'success'])->name('payment.towTruck.success');
+Route::get('/payment-cancel/{towTruck}', [TowTruckController::class, 'cancel'])->name('payment.towTruck.cancel');
 
 Route::post('/create-checkout-session', [PaymentController::class, 'createCheckoutSession'])->name('payment.checkout');
 Route::get('/payment-success/{order}', [PaymentController::class, 'success'])->name('payment.success');

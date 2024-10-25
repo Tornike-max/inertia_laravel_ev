@@ -69,6 +69,14 @@ export default function Authenticated({
                                     </NavLink>
                                 </div>
                             )}
+                            <div className="space-x-8 h-16 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route("evacuator.create")}
+                                    active={route().current("admin.dashboard")}
+                                >
+                                    დაამატე ევაკუატორი
+                                </NavLink>
+                            </div>
                             <div className="relative ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>

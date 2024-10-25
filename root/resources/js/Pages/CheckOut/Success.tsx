@@ -11,7 +11,6 @@ const Success = ({ auth, response }: PageProps) => {
         toast.success("თქვენ წარმატებით გადაიხადეთ");
     }, []);
 
-    console.log(response);
     return (
         <AuthenticatedLayout
             header={
