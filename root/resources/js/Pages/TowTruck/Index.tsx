@@ -19,12 +19,20 @@ const Index = ({ auth, evacuators }: PageProps) => {
             <Head title="მთავარი" />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-12">
+                    <div className="w-full flex justify-center items-center">
+                        <Link
+                            className="w-full  justify-center inline-flex items-center rounded-md border border-transparent bg-steal px-4 py-2 text-xs font-semibold uppercase tracking-widest bg-light text-white transition duration-150 ease-in-out hover:bg-teal focus:bg-teal focus:outline-none focus:ring-2 focus:ring-light focus:ring-offset-2 active:bg-teal"
+                            href={route("evacuator.create")}
+                        >
+                            დაამატე ევაკუატორი
+                        </Link>
+                    </div>
                     <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {evacuators?.data?.map((evacuator: TowTruck) => (
                             <Link
                                 href={route("evacuator.show", evacuator.id)}
                                 key={evacuator.id}
-                                className="p-4 bg-white shadow rounded-lg"
+                                className="p-4 bg-white shadow rounded-lg hover:shadow-2xl duration-200 transition-all"
                             >
                                 <img
                                     src={evacuator.image}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\TowTruck;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\TowTruck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,12 @@ class TowTruckController extends Controller
 
     public function show(TowTruck $towTruck)
     {
+        $comments = Comment::query()->where('tow_truck_id', '=', $towTruck->id)->with(['author', 'towTruck'])->get();
+
         return inertia('TowTruck/Show', [
             'evacuator' => $towTruck,
-            'evacuator_owner' => $towTruck->user
+            'evacuator_owner' => $towTruck->user,
+            'comments' => $comments
         ]);
     }
     public function create()
@@ -72,6 +76,21 @@ class TowTruckController extends Controller
         ]);
 
         return Inertia::location($session->url);
+    }
+
+    public function comment(Request $request, TowTruck $towTruck)
+    {
+        $validatedData = $request->validate([
+            'content' => 'required|min:2|string'
+        ]);
+
+        Comment::create([
+            'content' => $validatedData['content'],
+            'author_id' => Auth::user()->id,
+            'tow_truck_id' => $towTruck->id
+        ]);
+
+        return to_route('evacuator.index');
     }
 
 

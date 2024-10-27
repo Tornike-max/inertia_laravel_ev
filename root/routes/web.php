@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
 //ევაკუატორის შექმნა
 Route::get('/evacuator/index', [TowTruckController::class, 'index'])->name('evacuator.index');
 Route::get('/evacuator/show/{towTruck}', [TowTruckController::class, 'show'])->name('evacuator.show');
+Route::post('/evacuator/show/comment{towTruck}', [TowTruckController::class, 'comment'])->name('evacuator.comment');
+
 Route::get('/evacuator/create', [TowTruckController::class, 'create'])->name('evacuator.create');
 Route::post('/evacuator/store', [TowTruckController::class, 'store'])->name('evacuator.store');
 Route::get('/payment-success/{towTruck}', [TowTruckController::class, 'success'])->name('payment.towTruck.success');

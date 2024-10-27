@@ -3,7 +3,7 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 
 const Create = () => {
     const { data, setData, errors, post, processing } = useForm({
@@ -17,6 +17,8 @@ const Create = () => {
     const handleSubmit = () => {
         post(route("evacuator.store"));
     };
+
+    const handleReset = () => {};
     return (
         <AuthenticatedLayout
             header={
@@ -27,7 +29,15 @@ const Create = () => {
         >
             <Head title="მთავარი" />
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-8">
+                    <div className="w-full flex justify-start items-center">
+                        <Link
+                            className="inline-flex items-center rounded-md border border-transparent bg-steal px-4 py-2 text-xs font-semibold uppercase tracking-widest bg-light text-white transition duration-150 ease-in-out hover:bg-teal focus:bg-teal focus:outline-none focus:ring-2 focus:ring-light focus:ring-offset-2 active:bg-teal"
+                            href={route("evacuator.index")}
+                        >
+                            უკან დაბრუნება
+                        </Link>
+                    </div>
                     <form
                         onSubmit={handleSubmit}
                         className="w-full flex flex-col justify-center items-center gap-4"
@@ -87,10 +97,15 @@ const Create = () => {
                         </div>
 
                         <div className="w-full flex justify-end items-center gap-2">
-                            <Button className="bg-red-400 hover:bg-red-500">
+                            <button
+                                onClick={handleReset}
+                                type="button"
+                                className="inline-flex items-center rounded-md border border-transparent bg-steal px-4 py-2 text-xs font-semibold uppercase tracking-widest bg-red-400 text-white transition duration-150 ease-in-out hover:bg-red-500 focus:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 active:bg-red-500"
+                            >
                                 გაუქმება
-                            </Button>
+                            </button>
                             <Button
+                                type="submit"
                                 disabled={processing}
                                 className="bg-light hover:bg-teal"
                             >

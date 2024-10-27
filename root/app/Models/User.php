@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(TowTruck::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
