@@ -36,6 +36,12 @@ export default function Authenticated({
                                     მთავარი
                                 </NavLink>
                                 <NavLink
+                                    href={route("evacuator.index")}
+                                    active={route().current("evacuator.index")}
+                                >
+                                    ევაკუატორები
+                                </NavLink>
+                                <NavLink
                                     href={route("services.index")}
                                     active={route().current("services.index")}
                                 >

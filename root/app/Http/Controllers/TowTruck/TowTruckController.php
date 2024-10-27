@@ -9,10 +9,25 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
-use Termwind\Components\Dd;
 
 class TowTruckController extends Controller
 {
+    public function index()
+    {
+        $evacuators = TowTruck::query()->with('user')->latest()->paginate(10);
+
+        return inertia('TowTruck/Index', [
+            'evacuators' => $evacuators
+        ]);
+    }
+
+    public function show(TowTruck $towTruck)
+    {
+        return inertia('TowTruck/Show', [
+            'evacuator' => $towTruck,
+            'evacuator_owner' => $towTruck->user
+        ]);
+    }
     public function create()
     {
         return inertia('TowTruck/Create');

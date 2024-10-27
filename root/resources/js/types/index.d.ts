@@ -108,6 +108,9 @@ interface TowTruck {
     availability_status: string;
     created_at: string;
     updated_at: string;
+    image: string;
+    user: User;
+    driver_phone: string;
 }
 
 export type PageProps<
@@ -128,6 +131,7 @@ export type PageProps<
     order: Order;
     vehicle?: Vehicle;
     evacuator?: TowTruck;
+    evacuator_owner?: User;
     usersCount?: number;
     evacuatorsCount?: number;
     ordersCount?: number;

@@ -18,23 +18,23 @@ export default function Index({ auth, services, questions }: PageProps) {
 
     switch (category) {
         case "services":
-            filteredData = questions.services;
+            filteredData = questions?.services;
             break;
         case "payments":
-            filteredData = questions.payments;
+            filteredData = questions?.payments;
             break;
         case "techs":
-            filteredData = questions.techs;
+            filteredData = questions?.techs;
             break;
         case "security":
-            filteredData = questions.security;
+            filteredData = questions?.security;
             break;
         case "prices":
-            filteredData = questions.prices;
+            filteredData = questions?.prices;
             break;
 
         default:
-            filteredData = questions.services;
+            filteredData = questions?.services;
             break;
     }
 
@@ -94,7 +94,7 @@ export default function Index({ auth, services, questions }: PageProps) {
                         </div>
                         {/* კითხვების სექცია */}
                         <div className="p-6 space-y-4">
-                            {filteredData.map((question) => (
+                            {filteredData?.map((question) => (
                                 <FAQ
                                     key={question.id}
                                     question={question.question}
