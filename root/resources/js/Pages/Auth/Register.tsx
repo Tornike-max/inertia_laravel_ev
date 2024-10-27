@@ -62,7 +62,7 @@ export default function Register() {
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div>
+                <div className="mt-4">
                     <InputLabel htmlFor="name" value="ტელეფონის ნომერი" />
 
                     <TextInput
