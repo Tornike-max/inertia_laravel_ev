@@ -31,7 +31,6 @@ const Show = ({ auth, evacuator, evacuator_owner, comments }: PageProps) => {
     const { data, setData, post, put, reset, errors, processing } = useForm({
         content: "",
     });
-    const [isEditing, setIsEditing] = useState(false);
 
     const submitComment = (e: FormEvent) => {
         e.preventDefault();
@@ -41,10 +40,6 @@ const Show = ({ auth, evacuator, evacuator_owner, comments }: PageProps) => {
     const handleDeleteComment = (e: { preventDefault: () => void }) => {
         e.preventDefault();
         console.log("delete");
-    };
-
-    const handleEditComment = () => {
-        setIsEditing((isEditing) => !isEditing);
     };
 
     const handleUpdateComment = (id: number) => {
@@ -162,12 +157,7 @@ const Show = ({ auth, evacuator, evacuator_owner, comments }: PageProps) => {
                         </Button>
                     </form>
 
-                    <Comments
-                        comments={comments?.data}
-                        isEditing={isEditing}
-                        handleEditComment={handleEditComment}
-                        auth={auth}
-                    />
+                    <Comments comments={comments?.data} auth={auth} />
                 </div>
             </div>
         </AuthenticatedLayout>

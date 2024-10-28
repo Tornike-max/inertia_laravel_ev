@@ -110,6 +110,12 @@ class TowTruckController extends Controller
         return to_route('evacuator.show', $comment->tow_truck_id);
     }
 
+    public function deleteComment(Comment $comment)
+    {
+        $comment->delete();
+        return to_route('evacuator.show', $comment->tow_truck_id);
+    }
+
 
     public function success(TowTruck $towTruck)
     {

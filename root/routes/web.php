@@ -42,6 +42,7 @@ Route::get('/evacuator/show/{towTruck}', [TowTruckController::class, 'show'])->n
 Route::post('/evacuator/show/comment{towTruck}', [TowTruckController::class, 'comment'])->name('evacuator.comment');
 Route::get('/evacuator/edit/comment{comment}', [TowTruckController::class, 'editComment'])->name('evacuator.comment.edit');
 Route::put('/evacuator/update/comment{comment}', [TowTruckController::class, 'updateComment'])->name('evacuator.comment.update');
+Route::delete('/evacuator/delete/comment{comment}', [TowTruckController::class, 'deleteComment'])->name('evacuator.comment.delete');
 
 Route::get('/evacuator/create', [TowTruckController::class, 'create'])->name('evacuator.create');
 Route::post('/evacuator/store', [TowTruckController::class, 'store'])->name('evacuator.store');
