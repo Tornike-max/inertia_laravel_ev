@@ -1,4 +1,5 @@
 import Button from "@/Components/Button";
+import Comments from "@/Components/Comments";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, Link, useForm } from "@inertiajs/react";
@@ -9,8 +10,13 @@ import {
     ReactNode,
     ReactPortal,
     FormEvent,
+    useState,
 } from "react";
-import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
+import {
+    HiOutlineArrowLeft,
+    HiOutlinePencil,
+    HiOutlineTrash,
+} from "react-icons/hi2";
 
 interface User {
     id: number;
@@ -21,25 +27,29 @@ interface User {
     status: string;
 }
 
-interface Evacuator {
-    id: number;
-    driver_name: string;
-    truck_number: string;
-    availability_status: string;
-    location: string;
-    image: string;
-    driver_phone: string;
-    user: User;
-}
-
 const Show = ({ auth, evacuator, evacuator_owner, comments }: PageProps) => {
-    const { data, setData, post, reset, errors, processing } = useForm({
+    const { data, setData, post, put, reset, errors, processing } = useForm({
         content: "",
     });
+    const [isEditing, setIsEditing] = useState(false);
 
     const submitComment = (e: FormEvent) => {
         e.preventDefault();
         post(route("evacuator.comment", evacuator?.id));
+    };
+
+    const handleDeleteComment = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        console.log("delete");
+    };
+
+    const handleEditComment = () => {
+        setIsEditing((isEditing) => !isEditing);
+    };
+
+    const handleUpdateComment = (id: number) => {
+        console.log("update");
+        put(route("evacuator.comment.update", id));
     };
 
     return (
@@ -152,45 +162,12 @@ const Show = ({ auth, evacuator, evacuator_owner, comments }: PageProps) => {
                         </Button>
                     </form>
 
-                    {/* კომენტარების სია */}
-                    <h4 className="text-xl font-semibold mb-4">კომენტარები</h4>
-                    <div className="space-y-4">
-                        {comments?.map(
-                            (comment: {
-                                id: number;
-                                author_id: number;
-                                author: {
-                                    name: string;
-                                };
-                                created_at: string | number | Date;
-                                content: string;
-                            }) => (
-                                <div
-                                    key={comment.id}
-                                    className="bg-gray-100 p-4 rounded-lg"
-                                >
-                                    <div className="text-sm w-full text-gray-700 flex justify-between items-center">
-                                        <div className="flex justify-start items-center gap-1">
-                                            <strong>
-                                                {comment.author.name}
-                                            </strong>{" "}
-                                            -{" "}
-                                            {new Date(
-                                                comment.created_at
-                                            ).toLocaleDateString()}
-                                        </div>
-                                        {comment.author_id === auth.user.id && (
-                                            <div className="flex items-center justify-end gap-2 text-lg">
-                                                <HiOutlinePencil className="cursor-pointer text-light hover:text-teal duration-200 transition-all" />
-                                                <HiOutlineTrash className="text-red-400 hover:text-red-500 duration-200 transition-all cursor-pointer" />
-                                            </div>
-                                        )}
-                                    </div>
-                                    <p className="mt-2">{comment.content}</p>
-                                </div>
-                            )
-                        )}
-                    </div>
+                    <Comments
+                        comments={comments?.data}
+                        isEditing={isEditing}
+                        handleEditComment={handleEditComment}
+                        auth={auth}
+                    />
                 </div>
             </div>
         </AuthenticatedLayout>

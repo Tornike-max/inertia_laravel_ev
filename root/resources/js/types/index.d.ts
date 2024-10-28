@@ -113,6 +113,19 @@ interface TowTruck {
     driver_phone: string;
 }
 
+interface Comment {
+    map(
+        arg0: (comment: Comment) => import("react/jsx-runtime").JSX.Element
+    ): import("react").ReactNode;
+    id: number;
+    content: string;
+    author_id: number;
+    tow_truck_id: number;
+    towTruck: TowTruck;
+    created_at: string | number | Date;
+    author: User;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
@@ -127,6 +140,8 @@ export type PageProps<
     about?: About;
     questions?: FAQsByCategory;
     question?: FAQ;
+    comments: Comment[];
+    comment: Comment;
     user: User;
     order: Order;
     vehicle?: Vehicle;

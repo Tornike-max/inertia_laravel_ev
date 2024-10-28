@@ -24,7 +24,7 @@ class TowTruckController extends Controller
 
     public function show(TowTruck $towTruck)
     {
-        $comments = Comment::query()->where('tow_truck_id', '=', $towTruck->id)->with(['author', 'towTruck'])->get();
+        $comments = Comment::query()->where('tow_truck_id', '=', $towTruck->id)->with(['author', 'towTruck'])->latest()->paginate(5);
 
         return inertia('TowTruck/Show', [
             'evacuator' => $towTruck,
@@ -90,7 +90,24 @@ class TowTruckController extends Controller
             'tow_truck_id' => $towTruck->id
         ]);
 
-        return to_route('evacuator.index');
+        return to_route('evacuator.show', $towTruck->id);
+    }
+
+    public function editComment(Comment $comment)
+    {
+        return inertia('');
+        dd($comment);
+    }
+
+    public function updateComment(Request $request, Comment $comment)
+    {
+        $validatedData = $request->validate([
+            'content' => 'required'
+        ]);
+
+        $comment->update($validatedData);
+
+        return to_route('evacuator.show', $comment->tow_truck_id);
     }
 
 
