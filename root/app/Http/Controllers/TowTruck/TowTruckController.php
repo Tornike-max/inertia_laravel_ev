@@ -44,13 +44,23 @@ class TowTruckController extends Controller
         $validatedData = $request->validate([
             'hasDriver' => 'required|string',
             'driver_name' => 'nullable|string|min:2',
+            'driver_phone' => 'required|string',
             'truck_number' => 'required|string|min:9,max:9',
             'availability_status' => 'nullable|string',
-            'location' => 'required|string:2'
+            'location' => 'required|string:2',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validatedData['hasDriver'] === 'no') {
             $validatedData['driver_name'] = Auth::user()->name;
+        }
+
+        $imageName = '';
+        if ($request->file('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+
+            $request->file('image')->store('towTrucks', 'public');
+            $validatedData['image'] = 'towTruck/' . $imageName;
         }
 
         $validatedData['user_id'] = Auth::user()->id;

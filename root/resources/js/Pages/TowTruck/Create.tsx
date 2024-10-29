@@ -4,18 +4,33 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
 const Create = () => {
     const { data, setData, errors, post, processing } = useForm({
         hasDriver: "yes",
         driver_name: "",
+        driver_phone: "",
         truck_number: "",
         availability_status: "",
         location: "",
+        image: null,
     });
 
-    const handleSubmit = () => {
-        post(route("evacuator.store"));
+    const handleSubmit = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        const formData = new FormData();
+        Object.keys(data).forEach((key) => {
+            formData.append(key, data[key]);
+        });
+
+        post(route("evacuator.store"), {
+            data: formData,
+            onSuccess: () => console.log("Image uploaded successfully"),
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
     };
 
     const handleReset = () => {};
@@ -56,18 +71,38 @@ const Create = () => {
                             <InputError message={errors.driver_name} />
                         </div>
                         {data.hasDriver === "yes" && (
-                            <div className="w-full flex justify-center items-start flex-col gap-2">
-                                <InputLabel>მძღოლის სახელი</InputLabel>
-                                <TextInput
-                                    className="w-full"
-                                    type="text"
-                                    value={data.driver_name}
-                                    onChange={(e) =>
-                                        setData("driver_name", e.target.value)
-                                    }
-                                />
-                                <InputError message={errors.driver_name} />
-                            </div>
+                            <>
+                                <div className="w-full flex justify-center items-start flex-col gap-2">
+                                    <InputLabel>მძღოლის სახელი</InputLabel>
+                                    <TextInput
+                                        className="w-full"
+                                        type="text"
+                                        value={data.driver_name}
+                                        onChange={(e) =>
+                                            setData(
+                                                "driver_name",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <InputError message={errors.driver_name} />
+                                </div>
+                                <div className="w-full flex justify-center items-start flex-col gap-2">
+                                    <InputLabel>მძღოლის ნომერი</InputLabel>
+                                    <TextInput
+                                        className="w-full"
+                                        type="text"
+                                        value={data.driver_phone}
+                                        onChange={(e) =>
+                                            setData(
+                                                "driver_phone",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <InputError message={errors.driver_phone} />
+                                </div>
+                            </>
                         )}
 
                         <div className="w-full flex justify-center items-start flex-col gap-2">
@@ -94,6 +129,17 @@ const Create = () => {
                                 }
                             />
                             <InputError message={errors.location} />
+                        </div>
+
+                        <div className="w-full flex justify-center items-start flex-col gap-2">
+                            <InputLabel>მანქანის სურათი</InputLabel>
+                            <input
+                                className="w-full"
+                                type="file"
+                                onChange={(e) =>
+                                    setData("image", e.target.files[0])
+                                }
+                            />
                         </div>
 
                         <div className="w-full flex justify-end items-center gap-2">
