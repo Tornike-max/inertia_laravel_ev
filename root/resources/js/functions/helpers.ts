@@ -7,3 +7,11 @@ export function formatDate(dateString: string): string {
         day: "2-digit",
     });
 }
+
+export const showImage = (imagePath: string | undefined) => {
+    if (imagePath?.includes("https")) {
+        return imagePath;
+    } else {
+        return `/storage/${imagePath}`;
+    }
+};

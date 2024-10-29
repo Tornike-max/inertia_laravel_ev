@@ -4,7 +4,6 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import { useState } from "react";
 
 const Create = () => {
     const { data, setData, errors, post, processing } = useForm({

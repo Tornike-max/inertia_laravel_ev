@@ -6,6 +6,7 @@ import { Head, Link } from "@inertiajs/react";
 import { IoNavigateCircleOutline } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi2";
 import { GrStatusGood } from "react-icons/gr";
+import { showImage } from "@/functions/helpers";
 
 const Index = ({ auth, evacuators }: PageProps) => {
     return (
@@ -35,7 +36,7 @@ const Index = ({ auth, evacuators }: PageProps) => {
                                 className="p-4 bg-white shadow rounded-lg hover:shadow-2xl duration-200 transition-all"
                             >
                                 <img
-                                    src={evacuator.image}
+                                    src={showImage(evacuator.image)}
                                     alt={evacuator.name}
                                     className="w-full h-48 object-cover rounded-t-lg"
                                 />

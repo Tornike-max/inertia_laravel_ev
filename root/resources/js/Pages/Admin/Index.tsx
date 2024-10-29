@@ -1,6 +1,7 @@
 import Card from "@/Components/Card";
 import LatestUsers from "@/Components/LatestUsers";
-import VehiclesList from "@/Components/VehiclesTable";
+import TowTrucksList from "@/Components/TowTrucksList";
+import VehiclesTable from "@/Components/VehiclesTable";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps, User } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
@@ -60,9 +61,9 @@ const Index = ({
                     handleSubmit={handleSubmit}
                 />
 
-                <VehiclesList vehicles={vehicles} />
+                <VehiclesTable vehicles={vehicles} />
 
-                <VehiclesList vehicles={vehicles} />
+                <TowTrucksList towTrucks={evacuators} />
             </div>
         </AuthenticatedLayout>
     );

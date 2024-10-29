@@ -55,12 +55,9 @@ class TowTruckController extends Controller
             $validatedData['driver_name'] = Auth::user()->name;
         }
 
-        $imageName = '';
         if ($request->file('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-
-            $request->file('image')->store('towTrucks', 'public');
-            $validatedData['image'] = 'towTruck/' . $imageName;
+            $path = $request->file('image')->store('towTrucks', 'public');
+            $validatedData['image'] =  $path;
         }
 
         $validatedData['user_id'] = Auth::user()->id;

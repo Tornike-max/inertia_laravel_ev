@@ -1,5 +1,6 @@
 import Button from "@/Components/Button";
 import Comments from "@/Components/Comments";
+import { showImage } from "@/functions/helpers";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, Link, useForm } from "@inertiajs/react";
@@ -70,7 +71,7 @@ const Show = ({ auth, evacuator, evacuator_owner, comments }: PageProps) => {
 
                     {/* ევაკუატორის ინფორმაცია */}
                     <img
-                        src={evacuator?.image}
+                        src={showImage(evacuator?.image)}
                         alt={evacuator?.driver_name}
                         className="w-full h-64 object-cover rounded-lg mb-6"
                     />
