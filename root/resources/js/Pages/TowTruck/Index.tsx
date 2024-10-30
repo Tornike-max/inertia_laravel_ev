@@ -7,8 +7,11 @@ import { IoNavigateCircleOutline } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi2";
 import { GrStatusGood } from "react-icons/gr";
 import { showImage } from "@/functions/helpers";
+import TowTruckCard from "@/Components/TowTruckCard";
+import { useState } from "react";
+import CreateOrderModal from "@/Components/CreateOrderModal";
 
-const Index = ({ auth, evacuators }: PageProps) => {
+const Index = ({ auth, evacuators, services }: PageProps) => {
     return (
         <AuthenticatedLayout
             header={
@@ -30,41 +33,10 @@ const Index = ({ auth, evacuators }: PageProps) => {
                     </div>
                     <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {evacuators?.data?.map((evacuator: TowTruck) => (
-                            <Link
-                                href={route("evacuator.show", evacuator.id)}
+                            <TowTruckCard
                                 key={evacuator.id}
-                                className="p-4 bg-white shadow rounded-lg hover:shadow-2xl duration-200 transition-all"
-                            >
-                                <img
-                                    src={showImage(evacuator.image)}
-                                    alt={evacuator.name}
-                                    className="w-full h-48 object-cover rounded-t-lg"
-                                />
-                                <div className="p-4">
-                                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                                        <HiOutlineUser />
-                                        {evacuator.driver_name}
-                                    </h3>
-                                    <p className="mt-1 text-gray-600 flex items-center gap-2">
-                                        <IoNavigateCircleOutline />
-                                        {evacuator.location}
-                                    </p>
-                                    <p
-                                        className={`mt-1 text-sm flex items-center gap-2 ${
-                                            evacuator.availability_status ===
-                                            "ხელმისაწვდომი"
-                                                ? "text-green-600"
-                                                : "text-red-600"
-                                        }`}
-                                    >
-                                        <GrStatusGood />
-                                        {evacuator.availability_status ===
-                                        "ხელმისაწვდომი"
-                                            ? "ხელმისაწვდომია"
-                                            : "დაკავებულია"}
-                                    </p>
-                                </div>
-                            </Link>
+                                evacuator={evacuator}
+                            />
                         ))}
                     </div>
                 </div>

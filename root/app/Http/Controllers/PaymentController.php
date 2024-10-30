@@ -23,6 +23,7 @@ class PaymentController extends Controller
             'dropoff_location' => 'required|string|min:2',
             'model' => 'required|string',
             'order_details' => 'nullable|string',
+            'tow_truck_id' => 'nullable',
             'make' => 'required|string',
             'type' => 'required|string',
             'year' => 'required|string',
@@ -47,12 +48,6 @@ class PaymentController extends Controller
             throw ValidationException::withMessages(['error' => 'Unable to create vehicle record']);
         }
 
-        $towTrucks = TowTruck::where('location', $validatedData['pickup_location'])->first();
-
-        if (!$towTrucks) {
-            return back()->withErrors(['error' => 'No available tow truck at the specified address']);
-        }
-
         $orderDetails = [
             'pickup_location' => $validatedData['pickup_location'],
             'dropoff_location' => $validatedData['dropoff_location'],
@@ -62,9 +57,10 @@ class PaymentController extends Controller
             'price' => $this->calculatePrice($validatedData['type']),
             'status' => 'pending',
             'user_id' => Auth::user()->id,
-            'tow_truck_id' => $towTrucks->id,
             'vehicle_id' => $vehicle->id,
         ];
+
+        $orderDetails['tow_truck_id'] = $validatedData['tow_truck_id'] ?? TowTruck::where('location', $validatedData['pickup_location'])->first()->id ?? null;
 
         $order = Order::create($orderDetails);
 
@@ -84,6 +80,7 @@ class PaymentController extends Controller
             'success_url' => route('payment.success', ['order' => $order->id]),
             'cancel_url' => route('payment.cancel', ['order' => $order->id]),
         ]);
+
         return Inertia::location($session->url);
     }
 

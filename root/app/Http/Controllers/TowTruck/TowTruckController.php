@@ -4,6 +4,7 @@ namespace App\Http\Controllers\TowTruck;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Service;
 use App\Models\TowTruck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,7 @@ class TowTruckController extends Controller
     {
         $evacuators = TowTruck::query()->with('user')->latest()->paginate(10);
 
-        return inertia('TowTruck/Index', [
-            'evacuators' => $evacuators
-        ]);
+        return inertia('TowTruck/Index', compact(['evacuators']));
     }
 
     public function show(TowTruck $towTruck)
@@ -31,6 +30,11 @@ class TowTruckController extends Controller
             'evacuator_owner' => $towTruck->user,
             'comments' => $comments
         ]);
+    }
+    public function orderForm(TowTruck $evacuator)
+    {
+        $services = Service::query()->orderBy('price', 'desc')->get();
+        return inertia('TowTruck/OrderTowTruck', compact(['evacuator', 'services']));
     }
     public function create()
     {
