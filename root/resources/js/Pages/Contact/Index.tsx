@@ -1,17 +1,20 @@
+import Button from "@/Components/Button";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
-import { Head } from "@inertiajs/react";
-import { useForm } from "react-hook-form";
+import { Head, useForm } from "@inertiajs/react";
 
 export default function Index({ auth }: PageProps) {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const { data, setData, processing, errors, post } = useForm({
+        name: "",
+        email: "",
+        message: "",
+    });
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const handleSubmit = () => {
+        post(route("contact.send"));
     };
 
     return (
@@ -47,79 +50,72 @@ export default function Index({ auth }: PageProps) {
 
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6">
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                            <form onSubmit={handleSubmit}>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">
-                                            სახელი
-                                        </label>
-                                        <input
+                                        <InputLabel>სახელი</InputLabel>
+                                        <TextInput
                                             type="text"
-                                            {...register("name", {
-                                                required: true,
-                                            })}
+                                            value={data.name}
+                                            onChange={(e) =>
+                                                setData("name", e.target.value)
+                                            }
                                             className={`mt-1 block w-full border ${
                                                 errors.name
                                                     ? "border-red-500"
                                                     : "border-gray-300"
                                             } rounded-md p-2`}
                                         />
-                                        {errors.name && (
-                                            <p className="text-red-500 text-xs mt-1">
-                                                სახელი აუცილებელია
-                                            </p>
-                                        )}
+                                        <InputError message={errors.name} />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">
-                                            ელ.ფოსტა
-                                        </label>
-                                        <input
+                                        <InputLabel>
+                                            ელექტრონული ფოსტა
+                                        </InputLabel>
+                                        <TextInput
+                                            value={data.email}
                                             type="email"
-                                            {...register("email", {
-                                                required: true,
-                                            })}
+                                            onChange={(e) =>
+                                                setData("email", e.target.value)
+                                            }
                                             className={`mt-1 block w-full border ${
                                                 errors.email
                                                     ? "border-red-500"
                                                     : "border-gray-300"
                                             } rounded-md p-2`}
                                         />
-                                        {errors.email && (
-                                            <p className="text-red-500 text-xs mt-1">
-                                                ელ.ფოსტა აუცილებელია
-                                            </p>
-                                        )}
+                                        <InputError message={errors.email} />
                                     </div>
                                     <div className="col-span-1 md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700">
-                                            წერილი
-                                        </label>
+                                        <InputLabel>წერილი</InputLabel>
                                         <textarea
-                                            {...register("message", {
-                                                required: true,
-                                            })}
-                                            className={`mt-1 block w-full border ${
+                                            value={data.message}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "message",
+                                                    e.target.value
+                                                )
+                                            }
+                                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal focus:ring-teal ${
                                                 errors.message
                                                     ? "border-red-500"
                                                     : "border-gray-300"
                                             } rounded-md p-2`}
                                             rows={4}
                                         />
-                                        {errors.message && (
-                                            <p className="text-red-500 text-xs mt-1">
-                                                წერილი აუცილებელია
-                                            </p>
-                                        )}
+                                        <InputError message={errors.message} />
                                     </div>
                                 </div>
                                 <div className="mt-4">
-                                    <button
+                                    <Button
                                         type="submit"
-                                        className="w-full bg-teal-500 text-white font-bold py-2 rounded-lg hover:bg-teal-600 transition duration-300"
+                                        disabled={processing}
+                                        className="w-full bg-light hover:bg-teal focus:bg-teal flex justify-center items-center"
                                     >
-                                        გაგზავნა
-                                    </button>
+                                        {processing
+                                            ? "იგზავნება..."
+                                            : "გაგზავნა"}
+                                    </Button>
                                 </div>
                             </form>
                         </div>

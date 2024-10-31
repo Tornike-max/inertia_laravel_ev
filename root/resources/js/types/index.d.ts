@@ -111,6 +111,7 @@ interface TowTruck {
     image: string;
     user: User;
     driver_phone: string;
+    price: number;
 }
 
 interface Comment {

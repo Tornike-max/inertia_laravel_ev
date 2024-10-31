@@ -23,6 +23,7 @@ Route::get('/about', [AboutController::class, 'index'])
 Route::get('/contact', [ContactController::class, 'index'])
     ->middleware(['auth'])
     ->name('contact.index');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.send');
 
 //შეკითხვის დასმა
 Route::post('/question', [QuestionController::class, 'send'])->middleware('auth')->name('question.send');

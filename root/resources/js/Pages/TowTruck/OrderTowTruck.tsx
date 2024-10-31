@@ -6,9 +6,7 @@ import { Head, useForm } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
 import SelectInput from "@/Components/SelectInput";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 const OrderTowTruck = ({ evacuator, services }: PageProps) => {
@@ -16,7 +14,14 @@ const OrderTowTruck = ({ evacuator, services }: PageProps) => {
         pickup_location: evacuator?.location || "",
         tow_truck_id: evacuator?.id || "",
         dropoff_location: "",
-        type: "",
+        type:
+            evacuator?.price === 40
+                ? "მოტოციკლის ევაკუატორი"
+                : evacuator?.price === 60
+                ? "მანქანის ევაკუატორი"
+                : evacuator?.price === 80
+                ? "მძიმე ტექნიკის ევაკუატორი"
+                : "",
         model: "",
         order_details: "",
         make: "",
@@ -27,13 +32,14 @@ const OrderTowTruck = ({ evacuator, services }: PageProps) => {
         error: "",
     });
 
+    console.log(evacuator);
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         if (hasErrors) {
             toast.error("ბოდიში😥, თავიდან სცადეთ");
             return;
         }
-
         post(route("payment.checkout"));
     };
 
