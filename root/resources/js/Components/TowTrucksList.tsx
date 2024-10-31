@@ -95,14 +95,20 @@ const TowTrucksList = ({ towTrucks }: { towTrucks: unknown }) => {
 
                                             <Dropdown.Content>
                                                 <Dropdown.Link
-                                                    href={"#"}
+                                                    href={route(
+                                                        "admin.evacuator.show",
+                                                        towTruck.id
+                                                    )}
                                                     className="flex items-center gap-2 text-gray-700 hover:text-teal-600"
                                                 >
                                                     <HiOutlineEye className="text-lg" />
                                                     <span>ნახვა</span>
                                                 </Dropdown.Link>
                                                 <Dropdown.Link
-                                                    href={""}
+                                                    href={route(
+                                                        "admin.evacuator.edit",
+                                                        towTruck.id
+                                                    )}
                                                     className="flex items-center gap-2 text-gray-700 hover:text-teal-600"
                                                 >
                                                     <HiOutlinePencil className="text-lg" />

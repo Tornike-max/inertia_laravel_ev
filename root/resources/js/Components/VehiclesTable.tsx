@@ -75,14 +75,20 @@ const VehiclesTable = ({ vehicles }: { vehicles: unknown }) => {
 
                                             <Dropdown.Content>
                                                 <Dropdown.Link
-                                                    href={"#"}
+                                                    href={route(
+                                                        "admin.vehicle.show",
+                                                        vehicle.id
+                                                    )}
                                                     className="flex items-center gap-2 text-gray-700 hover:text-teal-600"
                                                 >
                                                     <HiOutlineEye className="text-lg" />
                                                     <span>ნახვა</span>
                                                 </Dropdown.Link>
                                                 <Dropdown.Link
-                                                    href={""}
+                                                    href={route(
+                                                        "admin.vehicles.edit",
+                                                        vehicle.id
+                                                    )}
                                                     className="flex items-center gap-2 text-gray-700 hover:text-teal-600"
                                                 >
                                                     <HiOutlinePencil className="text-lg" />

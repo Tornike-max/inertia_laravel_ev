@@ -34,9 +34,8 @@ const EditEvacuator = ({ auth, order, user, evacuator }: PageProps) => {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-2">
                     <Link
                         className="py-1 px-2 rounded-lg font-serif border border-teal hover:bg-teal hover:text-slate-50 duration-300 transition-all ease-in-out flex items-center justify-center gap-1 w-[110px]"
-                        href={route("admin.orders")}
+                        href={route("admin.evacuators")}
                     >
-                        {" "}
                         <HiOutlineArrowLeft /> <span>უკან</span>
                     </Link>
                     <h3 className="text-lg font-semibold">

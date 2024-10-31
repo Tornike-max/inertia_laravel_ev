@@ -11,7 +11,7 @@ const ShowUser = ({ auth, user }: PageProps) => {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
                     <Link
                         className="py-2 px-3 rounded-lg font-serif border border-teal hover:bg-teal hover:text-slate-50 duration-300 transition-all ease-in-out"
-                        href={route("admin.dashboard")}
+                        href={route("admin.users")}
                     >
                         უკან დაბრუნება
                     </Link>

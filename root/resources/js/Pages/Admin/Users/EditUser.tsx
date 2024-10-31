@@ -33,7 +33,7 @@ const EditUser = ({ auth, user }: PageProps) => {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-4">
                     <Link
                         className="py-1 px-2 rounded-lg font-serif border border-teal hover:bg-teal hover:text-slate-50 duration-300 transition-all ease-in-out flex items-center justify-center gap-1 w-[110px]"
-                        href={route("admin.dashboard")}
+                        href={route("admin.users")}
                     >
                         <HiOutlineArrowLeft />
                         <span>უკან</span>
