@@ -1,4 +1,5 @@
 import Card from "@/Components/Card";
+import CommentsList from "@/Components/CommentsList";
 import LatestUsers from "@/Components/LatestUsers";
 import TowTrucksList from "@/Components/TowTrucksList";
 import VehiclesTable from "@/Components/VehiclesTable";
@@ -17,6 +18,7 @@ const Index = ({
     evacuators,
     vehicles,
     orders,
+    comments,
 }: PageProps) => {
     const { delete: destroy, processing } = useForm();
 
@@ -64,6 +66,8 @@ const Index = ({
                 <VehiclesTable vehicles={vehicles} />
 
                 <TowTrucksList towTrucks={evacuators} />
+
+                <CommentsList comments={comments} />
             </div>
         </AuthenticatedLayout>
     );

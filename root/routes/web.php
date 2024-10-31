@@ -49,8 +49,8 @@ Route::post('/evacuator/store', [TowTruckController::class, 'store'])->name('eva
 Route::get('/evacuator/orderForm/{evacuator}', [TowTruckController::class, 'orderForm'])->name('evacuator.orderform');
 Route::post('/evacuator/order/{evacuator}', [TowTruckController::class, 'order'])->name('evacuator.order');
 
-Route::get('/payment-success/{towTruck}', [TowTruckController::class, 'success'])->name('payment.towTruck.success');
-Route::get('/payment-cancel/{towTruck}', [TowTruckController::class, 'cancel'])->name('payment.towTruck.cancel');
+Route::get('/towTruck-success/{towTruck}', [TowTruckController::class, 'success'])->name('payment.towTruck.success');
+Route::get('/towTruck-cancel/{towTruck}', [TowTruckController::class, 'cancel'])->name('payment.towTruck.cancel');
 
 Route::post('/create-checkout-session', [PaymentController::class, 'createCheckoutSession'])->name('payment.checkout');
 Route::get('/payment-success/{order}', [PaymentController::class, 'success'])->name('payment.success');

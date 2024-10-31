@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Order;
 use App\Models\TowTruck;
 use App\Models\User;
@@ -26,8 +27,9 @@ class AdminController extends Controller
         $vehicles = Vehicle::query()->with('user')->select(['id', 'make', 'model', 'user_id'])->latest()->paginate(5);
         $evacuators = TowTruck::query()->latest()->paginate(5);
         $orders = Order::query()->with('user')->select(['price', 'status', 'user_id'])->latest()->paginate(5);
+        $comments = Comment::query()->with(['author', 'towTruck'])->latest()->paginate(5);
 
-        return inertia('Admin/Index', compact('usersCount', 'vehiclesCount', 'evacuatorsCount', 'ordersCount', 'users', 'vehicles', 'evacuators', 'orders'));
+        return inertia('Admin/Index', compact('usersCount', 'vehiclesCount', 'evacuatorsCount', 'ordersCount', 'users', 'vehicles', 'evacuators', 'orders', 'comments'));
     }
 
     //users
