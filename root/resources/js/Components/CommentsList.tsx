@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import {
     HiEllipsisVertical,
     HiOutlineEye,
@@ -12,6 +12,11 @@ import { ReactElement, JSXElementConstructor, ReactNode, Key } from "react";
 import { formatDate, showImage } from "@/functions/helpers";
 
 const CommentsList = ({ comments }: { comments: unknown }) => {
+    const { delete: destroy, processing } = useForm();
+    const handleDelete = (e, id: number) => {
+        e.preventDefault();
+        destroy(route("admin.delete.comment", id));
+    };
     return (
         <div className="mx-auto max-w-7xl w-full">
             <h3 className="text-2xl font-semibold my-4 text-center">
@@ -60,7 +65,7 @@ const CommentsList = ({ comments }: { comments: unknown }) => {
                                         {comment.id}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {comment.author_id}
+                                        {comment.author.name}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                         {comment.tow_truck_id}
@@ -88,26 +93,31 @@ const CommentsList = ({ comments }: { comments: unknown }) => {
 
                                             <Dropdown.Content>
                                                 <Dropdown.Link
-                                                    href={"#"}
-                                                    className="flex items-center gap-2 text-gray-700 hover:text-teal-600"
-                                                >
-                                                    <HiOutlineEye className="text-lg" />
-                                                    <span>ნახვა</span>
-                                                </Dropdown.Link>
-                                                <Dropdown.Link
-                                                    href={""}
+                                                    href={route(
+                                                        "admin.edit.comment",
+                                                        comment.id
+                                                    )}
                                                     className="flex items-center gap-2 text-gray-700 hover:text-teal-600"
                                                 >
                                                     <HiOutlinePencil className="text-lg" />
                                                     <span>შესწორება</span>
                                                 </Dropdown.Link>
-                                                <Dropdown.Link
-                                                    href={""}
-                                                    className="flex items-center gap-2 text-gray-700 hover:text-red-600"
+                                                <form
+                                                    onSubmit={(e) =>
+                                                        handleDelete(
+                                                            e,
+                                                            comment.id
+                                                        )
+                                                    }
                                                 >
-                                                    <HiOutlineTrash className="text-lg" />
-                                                    <span>წაშლა</span>
-                                                </Dropdown.Link>
+                                                    <button
+                                                        type="submit"
+                                                        className="flex items-center justify-start gap-2  w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                                                    >
+                                                        <HiOutlineTrash className="text-xl" />
+                                                        <span>წაშლა</span>
+                                                    </button>
+                                                </form>
                                             </Dropdown.Content>
                                         </Dropdown>
                                     </td>

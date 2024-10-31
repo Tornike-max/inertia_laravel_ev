@@ -56,5 +56,8 @@ Route::post('/create-checkout-session', [PaymentController::class, 'createChecko
 Route::get('/payment-success/{order}', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment-cancel/{order}', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
+
+
+
 require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';

@@ -262,4 +262,24 @@ class AdminController extends Controller
         $evacuator->delete();
         return to_route('admin.dashboard', $evacuator->id);
     }
+
+    public function editComment(Comment $comment)
+    {
+        return inertia('Admin/Comments/Edit', compact('comment'));
+    }
+
+    public function updateComment(Request $request, Comment $comment)
+    {
+        $validatedData = $request->validate([
+            'content' => 'required|string'
+        ]);
+        $comment->update($validatedData);
+        return to_route('admin.dashboard');
+    }
+
+    public function deleteComment(Comment $comment)
+    {
+        $comment->delete();
+        return to_route('admin.dashboard');
+    }
 }
