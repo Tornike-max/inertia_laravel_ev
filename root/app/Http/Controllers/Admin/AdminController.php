@@ -23,7 +23,7 @@ class AdminController extends Controller
         $evacuatorsCount = TowTruck::query()->latest()->count();
         $ordersCount = Order::query()->latest()->count();
 
-        $users = User::query()->select(['name', 'id', 'phone_number', 'status'])->where('status', '!=', 'admin')->latest()->paginate(5);
+        $users = User::query()->select(['name', 'email', 'id', 'phone_number', 'status'])->where('status', '!=', 'admin')->latest()->paginate(5);
         $vehicles = Vehicle::query()->with('user')->select(['id', 'make', 'model', 'user_id'])->latest()->paginate(5);
         $evacuators = TowTruck::query()->latest()->paginate(5);
         $orders = Order::query()->with('user')->select(['price', 'status', 'user_id'])->latest()->paginate(5);

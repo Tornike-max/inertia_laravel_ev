@@ -22,9 +22,12 @@ const LatestUsers = ({
     processing: boolean;
     handleSubmit: (id: number) => void;
 }) => {
+    console.log(users);
     return (
         <div className="mx-auto max-w-7xl space-y-4">
-            <h3 className="text-lg font-semibold">მომხმარებლები</h3>
+            <h3 className="text-2xl font-semibold my-4 text-center">
+                მომხმარებლები
+            </h3>
             <div className="overflow-hidden border border-gray-200 rounded-lg shadow-md">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-slate-50">

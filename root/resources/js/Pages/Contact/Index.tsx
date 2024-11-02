@@ -5,6 +5,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 export default function Index({ auth }: PageProps) {
     const { data, setData, processing, errors, post } = useForm({
@@ -14,7 +15,16 @@ export default function Index({ auth }: PageProps) {
     });
 
     const handleSubmit = () => {
-        post(route("contact.send"));
+        post(
+            route("contact.send", {
+                onSuccess: () => {
+                    toast.success("წერილი წარმატებით გაიგზავნა");
+                },
+                onError: () => {
+                    toast.error("სამწუხაროდ წერილის გაგზავნა ვერ მოხერხდა");
+                },
+            })
+        );
     };
 
     return (

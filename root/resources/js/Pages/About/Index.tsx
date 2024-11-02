@@ -21,9 +21,7 @@ export default function Index({ auth, about }: PageProps) {
                     </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6">
-                            <p className="text-gray-700 text-lg">
-                                {about.ourMission}
-                            </p>
+                            <p className="text-gray-700 ">{about.ourMission}</p>
                         </div>
                     </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -33,9 +31,7 @@ export default function Index({ auth, about }: PageProps) {
                     </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6">
-                            <p className="text-gray-700 text-lg">
-                                {about.whyUs}
-                            </p>
+                            <p className="text-gray-700 ">{about.whyUs}</p>
                         </div>
                     </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
@@ -45,9 +41,7 @@ export default function Index({ auth, about }: PageProps) {
                     </div>
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6">
-                            <p className="text-gray-700 text-lg">
-                                {about.ourHistory}
-                            </p>
+                            <p className="text-gray-700">{about.ourHistory}</p>
                         </div>
                     </div>
                 </div>
