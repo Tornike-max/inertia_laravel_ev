@@ -52,6 +52,8 @@ Route::post('/evacuator/order/{evacuator}', [TowTruckController::class, 'order']
 
 Route::get('/towTruck-success/{towTruck}', [TowTruckController::class, 'success'])->name('payment.towTruck.success');
 Route::get('/towTruck-cancel/{towTruck}', [TowTruckController::class, 'cancel'])->name('payment.towTruck.cancel');
+
+Route::get('/tow-Truck/{towTruck}/location', [TowTruckController::class, 'currentLocation'])->middleware('auth')->name('towTruck.current.location');
 Route::put('/tow-trucks/{towTruck}/location', [TowTruckController::class, 'updateLocation'])->middleware('auth')->name('towTruck.update.location');
 
 Route::post('/create-checkout-session', [PaymentController::class, 'createCheckoutSession'])->name('payment.checkout');

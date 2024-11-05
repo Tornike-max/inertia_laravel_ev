@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Echo from "laravel-echo";
+import Pusher from "pusher-js";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import Pusher from "pusher-js";
+import { TowTruck } from "@/types";
 
-const LiveMap = ({ towTruckId, towTruck }: { towTruckId: number }) => {
-    const [location, setLocation] = useState({ lat: 41.7, lng: 44.7712 });
+window.Pusher = Pusher;
+
+const LiveMap = ({
+    towTruckId,
+    evacuator,
+}: {
+    towTruckId: number;
+    evacuator: TowTruck;
+}) => {
+    const [location, setLocation] = useState({
+        lat: evacuator.latitude,
+        lng: evacuator.longitude,
+    });
 
     useEffect(() => {
         const echo = new Echo({
@@ -41,8 +53,8 @@ const LiveMap = ({ towTruckId, towTruck }: { towTruckId: number }) => {
             center={[location.lat, location.lng]}
             zoom={13}
             style={{ height: "400px", width: "100%" }}
-            whenCreated={(map) => {
-                map.locate(); // Optional: If you want to locate the user
+            whenCreated={(map: { locate: () => void }) => {
+                map.locate();
             }}
         >
             <TileLayer

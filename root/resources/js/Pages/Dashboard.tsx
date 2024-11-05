@@ -8,14 +8,9 @@ import LiveMap from "@/Components/LiveMap";
 export default function Dashboard({ auth, services, ourMission }: PageProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { feedbacks } = usePage().props;
-    const [showMap, setShowMap] = useState(false);
 
     const handleToggleModal = () => {
         setIsModalOpen((open) => !open);
-    };
-
-    const handleShowMap = () => {
-        setShowMap((show) => !show);
     };
 
     return (
@@ -48,8 +43,6 @@ export default function Dashboard({ auth, services, ourMission }: PageProps) {
                             >
                                 ევაკუატორის გამოძახება
                             </button>
-                            <button onClick={handleShowMap}>იხილე რუკა</button>
-                            {showMap && <LiveMap towTruckId={30} />}
                         </div>
                     </section>
                     {isModalOpen && (

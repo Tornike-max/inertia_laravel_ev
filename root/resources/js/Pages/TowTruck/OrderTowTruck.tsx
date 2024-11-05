@@ -32,7 +32,6 @@ const OrderTowTruck = ({ evacuator, services }: PageProps) => {
         error: "",
     });
 
-    console.log(evacuator);
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
 

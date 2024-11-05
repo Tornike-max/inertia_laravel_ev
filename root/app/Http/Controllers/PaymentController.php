@@ -86,8 +86,9 @@ class PaymentController extends Controller
 
     public function success(Order $order)
     {
+        $evacuator_id = $order->tow_truck->id;
         $order->update(['status' => 'completed', 'payed' => 1]);
-        return inertia('CheckOut/Success', ['order' => $order]);
+        return inertia('CheckOut/Success', ['order' => $order, 'evacuator_id' => $evacuator_id]);
     }
 
     public function cancel(Order $order)

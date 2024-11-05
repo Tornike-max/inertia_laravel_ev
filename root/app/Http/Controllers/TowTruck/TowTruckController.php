@@ -90,6 +90,13 @@ class TowTruckController extends Controller
         return Inertia::location($session->url);
     }
 
+    public function currentLocation(TowTruck $towTruck)
+    {
+        return inertia('Map/Map', [
+            'evacuator' => $towTruck
+        ]);
+    }
+
     public function updateLocation(Request $request, TowTruck $towTruck)
     {
         $towTruck->update([
@@ -101,7 +108,6 @@ class TowTruckController extends Controller
 
         return response()->json(['status' => 'Location updated']);
     }
-
 
     public function comment(Request $request, TowTruck $towTruck)
     {
@@ -147,7 +153,7 @@ class TowTruckController extends Controller
         $towTruck->update([
             'availability_status' => 'ხელმისაწვდომი'
         ]);
-        return inertia('CheckOut/Success', ['towTruck' => $towTruck]);
+        return inertia('CheckOut/Success', ['evacuator' => $towTruck]);
     }
 
     public function error(TowTruck $towTruck)
@@ -155,6 +161,6 @@ class TowTruckController extends Controller
         $towTruck->update([
             'availability_status' => 'დაკავებული'
         ]);
-        return inertia('CheckOut/Success', ['towTruck' => $towTruck]);
+        return inertia('CheckOut/Success', ['evacuator' => $towTruck]);
     }
 }

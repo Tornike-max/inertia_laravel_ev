@@ -112,6 +112,8 @@ interface TowTruck {
     user: User;
     driver_phone: string;
     price: number;
+    latitude: number | string;
+    longitude: number | string;
 }
 
 interface Comment {
@@ -147,6 +149,7 @@ export type PageProps<
     order: Order;
     vehicle?: Vehicle;
     evacuator?: TowTruck;
+    evacuator_id?: number;
     evacuator_owner?: User;
     usersCount?: number;
     evacuatorsCount?: number;
