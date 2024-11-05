@@ -20,4 +20,9 @@ class TowTruck extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
