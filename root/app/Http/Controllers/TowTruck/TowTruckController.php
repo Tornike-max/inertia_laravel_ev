@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\TowTruck;
 
+use App\Events\LocationUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Service;
@@ -88,6 +89,19 @@ class TowTruckController extends Controller
 
         return Inertia::location($session->url);
     }
+
+    public function updateLocation(Request $request, TowTruck $towTruck)
+    {
+        $towTruck->update([
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        LocationUpdated::dispatch($towTruck->latitude, $towTruck->longitude, $towTruck->id);
+
+        return response()->json(['status' => 'Location updated']);
+    }
+
 
     public function comment(Request $request, TowTruck $towTruck)
     {
