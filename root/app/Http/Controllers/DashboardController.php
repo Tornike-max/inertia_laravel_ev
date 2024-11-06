@@ -17,9 +17,16 @@ class DashboardController extends Controller
         $services = Service::query()->orderBy('price', 'desc')->get();
         $ourMission = About::select('ourMission')->first();
 
+        $currentOrderSession = session('currentOrder') ?? null;
+
+        if (isset($currentOrderSession) && $currentOrderSession->status === 'completed') {
+            session()->forget('currentOrder');
+        }
+
         return Inertia::render('Dashboard', [
             'services' => $services,
-            'ourMission' => $ourMission
+            'ourMission' => $ourMission,
+            'currentOrder' => $currentOrderSession
         ]);
     }
 }

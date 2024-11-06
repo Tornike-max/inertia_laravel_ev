@@ -62,7 +62,23 @@ class PaymentController extends Controller
 
         $orderDetails['tow_truck_id'] = $validatedData['tow_truck_id'] ?? TowTruck::where('location', $validatedData['pickup_location'])->first()->id ?? null;
 
-        $order = Order::create($orderDetails);
+        $activeOrder = Order::where('user_id', $orderDetails['user_id'])
+            ->where('tow_truck_id', $orderDetails['tow_truck_id'])
+            ->whereIn('status', ['pending', 'In Progress'])
+            ->first();
+
+        if (!isset($activeOrder)) {
+            $order = Order::create($orderDetails);
+            session(['currentOrder' => $order]);
+        } else {
+            if (!isset($activeOrder)) {
+                $order = Order::create($orderDetails);
+            } else {
+                throw ValidationException::withMessages([
+                    'error' => 'თქვენი შეკვეთა არ დასრულებულა'
+                ]);
+            }
+        }
 
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -87,7 +103,7 @@ class PaymentController extends Controller
     public function success(Order $order)
     {
         $evacuator_id = $order->tow_truck->id;
-        $order->update(['status' => 'completed', 'payed' => 1]);
+        $order->update(['status' => 'In Progress', 'payed' => 1]);
         return inertia('CheckOut/Success', ['order' => $order, 'evacuator_id' => $evacuator_id]);
     }
 

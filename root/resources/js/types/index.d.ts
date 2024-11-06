@@ -71,7 +71,7 @@ interface Pagination<T> {
 }
 
 export interface Order {
-    id: number;
+    id: number | string;
     user_id: number;
     vehicle_id: number;
     tow_truck_id: number;
@@ -80,8 +80,9 @@ export interface Order {
     pickup_location: string;
     dropoff_location: string;
     price: number;
-    status: "pending" | "in_progress" | "completed";
+    status: "pending" | "In Progress" | "completed";
     order_details: string;
+    payed: boolean;
     created_at: string;
     updated_at: string;
     user: User;
@@ -147,6 +148,7 @@ export type PageProps<
     comment: Comment;
     user: User;
     order: Order;
+    currentOrder?: Order;
     vehicle?: Vehicle;
     evacuator?: TowTruck;
     evacuator_id?: number;

@@ -5,6 +5,7 @@ import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
+import { OrderContextProvider } from "./context/OrderContext";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -20,8 +21,10 @@ createInertiaApp({
 
         root.render(
             <>
-                <App {...props} />
-                <Toaster />
+                <OrderContextProvider>
+                    <App {...props} />
+                    <Toaster />
+                </OrderContextProvider>
             </>
         );
     },

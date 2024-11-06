@@ -35,7 +35,6 @@ const OrderForm = ({
             toast.error("ბოდიში😥, თავიდან სცადეთ");
             return;
         }
-
         post(route("payment.checkout"));
     };
 

@@ -92,6 +92,7 @@ class TowTruckController extends Controller
 
     public function currentLocation(TowTruck $towTruck)
     {
+
         return inertia('Map/Map', [
             'evacuator' => $towTruck
         ]);

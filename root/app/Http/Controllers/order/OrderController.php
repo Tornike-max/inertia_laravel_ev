@@ -70,6 +70,19 @@ class OrderController extends Controller
         ]);
     }
 
+    public function currentOrder(Order $order)
+    {
+        $sessionCurrentOrder = session('currentOrder');
+
+        if ($sessionCurrentOrder->id === $order->id && $sessionCurrentOrder->user_id === $order->user_id && $sessionCurrentOrder->tow_truck_id === $order->tow_truck_id) {
+            return inertia('Order/CurrentOrder', [
+                'currentOrder' => $sessionCurrentOrder ?? null
+            ]);
+        } else {
+            return to_route('dashboard');
+        }
+    }
+
     private function calculatePrice($vehicleType)
     {
         switch ($vehicleType) {

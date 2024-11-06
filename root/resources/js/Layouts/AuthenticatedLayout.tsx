@@ -2,13 +2,18 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Order } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useState } from "react";
 
 export default function Authenticated({
     header,
+    currentOrder,
     children,
-}: PropsWithChildren<{ header?: ReactNode }>) {
+}: PropsWithChildren<{
+    header?: ReactNode;
+    currentOrder?: Order | undefined;
+}>) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -16,6 +21,12 @@ export default function Authenticated({
 
     const currentPath = window.location.href.includes("admin");
 
+    console.log(
+        currentOrder &&
+            currentOrder.status !== "completed" &&
+            currentOrder.user_id === user.id &&
+            currentOrder
+    );
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="border-b border-gray-100 bg-white">
@@ -221,6 +232,20 @@ export default function Authenticated({
                     </div>
                 </div>
             </nav>
+
+            {currentOrder &&
+                currentOrder.status !== "completed" &&
+                currentOrder.user_id === user.id && (
+                    <div className="fixed bottom-4 right-4 z-50">
+                        <NavLink
+                            href={route("order.current", currentOrder.id)}
+                            active={false}
+                            className="text-white bg-blue-700 hover:bg-blue-800 rounded-full focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-lg p-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all transform hover:scale-110 shadow-xl hover:shadow-2xl"
+                        >
+                            <span className="text-xl animate-bounce">🛻</span>
+                        </NavLink>
+                    </div>
+                )}
 
             {header && (
                 <header className="bg-white shadow">

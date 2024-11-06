@@ -3,10 +3,16 @@ import { Feedbacks, PageProps, Service } from "@/types";
 import { Head, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import CreateOrderModal from "@/Components/CreateOrderModal";
-import LiveMap from "@/Components/LiveMap";
+import useOrderContext from "@/context/useOrderContext";
 
-export default function Dashboard({ auth, services, ourMission }: PageProps) {
+export default function Dashboard({
+    auth,
+    services,
+    ourMission,
+    currentOrder,
+}: PageProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { order } = useOrderContext();
     const { feedbacks } = usePage().props;
 
     const handleToggleModal = () => {
@@ -15,6 +21,7 @@ export default function Dashboard({ auth, services, ourMission }: PageProps) {
 
     return (
         <AuthenticatedLayout
+            currentOrder={currentOrder}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-teal">
                     მთავარი გვერდი

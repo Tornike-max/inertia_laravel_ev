@@ -30,6 +30,7 @@ Route::post('/question', [QuestionController::class, 'send'])->middleware('auth'
 
 //შეკვეთა
 Route::post('/order', [OrderController::class, 'store'])->middleware('auth')->name('order');
+Route::get('/order/current/{order}', [OrderController::class, 'currentOrder'])->middleware('auth')->name('order.current');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

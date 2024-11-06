@@ -5,7 +5,6 @@ import { Head } from "@inertiajs/react";
 import { useState } from "react";
 
 const Map = ({ auth, evacuator }: PageProps) => {
-    console.log(evacuator);
     return (
         <AuthenticatedLayout
             header={
