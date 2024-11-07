@@ -19,6 +19,7 @@ export default function Dashboard({
         setIsModalOpen((open) => !open);
     };
 
+    console.log(currentOrder);
     return (
         <AuthenticatedLayout
             currentOrder={currentOrder}

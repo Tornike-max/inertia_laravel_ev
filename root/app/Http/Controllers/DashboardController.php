@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
 use App\Models\About;
 use App\Models\FeedBack;
 use App\Models\Order;
@@ -31,7 +32,7 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', [
             'services' => $services,
             'ourMission' => $ourMission,
-            'currentOrder' => $currentOrderSession
+            'currentOrder' => new OrderResource($currentOrderSession),
         ]);
     }
 }
