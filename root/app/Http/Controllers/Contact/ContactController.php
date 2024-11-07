@@ -11,7 +11,14 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return inertia('Contact/Index');
+        $currentOrderSession = session('currentOrder') ?? null;
+
+        if (isset($currentOrderSession) && $currentOrderSession->status === 'completed') {
+            session()->forget('currentOrder');
+        }
+        return inertia('Contact/Index', [
+            'currentOrder' => $currentOrderSession
+        ]);
     }
 
     public function store(Request $request)

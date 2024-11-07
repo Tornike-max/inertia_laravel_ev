@@ -11,16 +11,17 @@ import TowTruckCard from "@/Components/TowTruckCard";
 import { useState } from "react";
 import CreateOrderModal from "@/Components/CreateOrderModal";
 
-const Index = ({ auth, evacuators, services }: PageProps) => {
+const Index = ({ auth, evacuators, services, currentOrder }: PageProps) => {
     return (
         <AuthenticatedLayout
+            currentOrder={currentOrder}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-teal">
                     ევაკუატორების სია
                 </h2>
             }
         >
-            <Head title="მთავარი" />
+            <Head title="ევაკუატორები" />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-12">
                     <div className="w-full flex justify-center items-center">

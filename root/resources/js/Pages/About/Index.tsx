@@ -2,9 +2,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 
-export default function Index({ auth, about }: PageProps) {
+export default function Index({ auth, about, currentOrder }: PageProps) {
     return (
         <AuthenticatedLayout
+            currentOrder={currentOrder}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-teal">
                     ჩვენი კომპანია

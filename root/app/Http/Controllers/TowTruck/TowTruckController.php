@@ -17,9 +17,18 @@ class TowTruckController extends Controller
 {
     public function index()
     {
+        $currentOrderSession = session('currentOrder') ?? null;
+
+        if (isset($currentOrderSession) && $currentOrderSession->status === 'completed') {
+            session()->forget('currentOrder');
+        }
+
         $evacuators = TowTruck::query()->with('user')->latest()->paginate(10);
 
-        return inertia('TowTruck/Index', compact(['evacuators']));
+        return inertia('TowTruck/Index', [
+            'evacuators' => $evacuators,
+            'currentOrder' => $currentOrderSession
+        ]);
     }
 
     public function show(TowTruck $towTruck)

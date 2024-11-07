@@ -10,10 +10,16 @@ class AboutController extends Controller
 {
     public function index()
     {
+        $currentOrderSession = session('currentOrder') ?? null;
+
+        if (isset($currentOrderSession) && $currentOrderSession->status === 'completed') {
+            session()->forget('currentOrder');
+        }
         $about = About::query()->first();
 
         return inertia('About/Index', [
-            'about' => $about
+            'about' => $about,
+            'currentOrder' => $currentOrderSession
         ]);
     }
 }

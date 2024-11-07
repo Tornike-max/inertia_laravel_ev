@@ -7,7 +7,7 @@ import { PageProps } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
 
-export default function Index({ auth }: PageProps) {
+export default function Index({ auth, currentOrder }: PageProps) {
     const { data, setData, processing, errors, post } = useForm({
         name: "",
         email: "",
@@ -29,6 +29,7 @@ export default function Index({ auth }: PageProps) {
 
     return (
         <AuthenticatedLayout
+            currentOrder={currentOrder}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-teal">
                     კონტაქტი

@@ -9,7 +9,12 @@ import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 import { FormEventHandler, useState } from "react";
 
-export default function Index({ auth, services, questions }: PageProps) {
+export default function Index({
+    auth,
+    services,
+    questions,
+    currentOrder,
+}: PageProps) {
     const [step, setStep] = useState<number | null>(null);
 
     const [category, setCategory] = useState("");
@@ -40,6 +45,7 @@ export default function Index({ auth, services, questions }: PageProps) {
 
     return (
         <AuthenticatedLayout
+            currentOrder={currentOrder}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-teal">
                     სერვისები
