@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -15,10 +15,10 @@ const LiveMap = ({
     evacuator: TowTruck;
 }) => {
     const [location, setLocation] = useState({
-        lat: evacuator.latitude,
-        lng: evacuator.longitude,
+        lat: evacuator?.latitude,
+        lng: evacuator?.longitude,
     });
-
+    console.log(evacuator);
     useEffect(() => {
         const echo = new Echo({
             broadcaster: "pusher",
@@ -37,14 +37,14 @@ const LiveMap = ({
                 longitude: number;
             }) => {
                 if (e.towTruckId === towTruckId) {
-                    setLocation({ lat: e.latitude, lng: e.longitude });
+                    setLocation({ lat: e?.latitude, lng: e?.longitude });
                 }
             }
         );
 
         return () => {
-            channel.stopListening("LocationUpdated");
-            echo.disconnect();
+            channel?.stopListening("LocationUpdated");
+            echo?.disconnect();
         };
     }, [towTruckId]);
 
@@ -62,7 +62,7 @@ const LiveMap = ({
                 attribution="&copy; OpenStreetMap contributors"
             />
             <Marker position={[location.lat, location.lng]}>
-                <Popup>Tow Truck's Current Location</Popup>
+                <Popup>ახლანდელი ლოკაცია</Popup>
             </Marker>
         </MapContainer>
     );

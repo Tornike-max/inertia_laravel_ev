@@ -19,7 +19,7 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => new UserResource($this->user),
-            'towTruck' => new TowTruckResource($this->towTruck),
+            'towTruck' => new TowTruckResource($this->tow_truck),
             'vehicle' => new VehicleResource($this->vehicle),
             'pickup_location' => $this->pickup_location,
             'dropoff_location' => $this->dropoff_location,

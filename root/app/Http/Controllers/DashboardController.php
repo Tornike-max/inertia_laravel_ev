@@ -21,6 +21,7 @@ class DashboardController extends Controller
 
         $currentOrderSession = session('currentOrder') ?? null;
         $order = Order::query();
+
         if (isset($currentOrderSession)) {
             $order = $order->with(['user', 'tow_truck', 'vehicle'])->where('id', '=', $currentOrderSession->id)->first();
         }

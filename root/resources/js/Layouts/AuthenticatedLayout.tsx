@@ -227,8 +227,8 @@ export default function Authenticated({
             </nav>
 
             {currentOrder &&
-                currentOrder.status !== "completed" &&
-                currentOrder?.user.id === user?.id && (
+                currentOrder?.status !== "completed" &&
+                currentOrder?.user?.id === user?.id && (
                     <div className="fixed bottom-4 right-4 z-50">
                         <NavLink
                             href={route("order.current", currentOrder?.id)}

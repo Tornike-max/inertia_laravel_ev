@@ -77,7 +77,7 @@ class OrderController extends Controller
 
         if ($sessionCurrentOrder->id === $order->id && $sessionCurrentOrder->user_id === $order->user_id && $sessionCurrentOrder->tow_truck_id === $order->tow_truck_id) {
             return inertia('Order/CurrentOrder', [
-                'currentOrder' => new OrderResource($order) ?? null
+                'currentOrder' => new OrderResource($order)
             ]);
         } else {
             return to_route('dashboard');

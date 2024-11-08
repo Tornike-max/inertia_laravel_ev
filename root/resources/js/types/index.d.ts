@@ -86,6 +86,8 @@ export interface Order {
     created_at: string;
     updated_at: string;
     user: User;
+    towTruck: TowTruck;
+    vehicle: Vehicle;
 }
 
 export interface Vehicle {

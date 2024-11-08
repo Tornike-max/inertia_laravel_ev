@@ -1,3 +1,4 @@
+import LiveMap from "@/Components/LiveMap";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
@@ -43,6 +44,11 @@ const CurrentOrder = ({ auth, currentOrder }: PageProps) => {
                             {currentOrder?.tow_truck_id}
                         </p>
                     </div>
+
+                    <LiveMap
+                        towTruckId={currentOrder?.towTruck?.id ?? 0}
+                        evacuator={currentOrder?.towTruck}
+                    />
 
                     <div className="bg-white shadow-sm rounded-lg p-6 space-y-4">
                         {currentOrder?.status === "In Progress" && (
