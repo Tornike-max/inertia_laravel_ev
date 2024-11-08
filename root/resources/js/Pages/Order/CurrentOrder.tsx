@@ -3,6 +3,7 @@ import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
 
 const CurrentOrder = ({ auth, currentOrder }: PageProps) => {
+    console.log(currentOrder);
     return (
         <AuthenticatedLayout
             currentOrder={currentOrder}

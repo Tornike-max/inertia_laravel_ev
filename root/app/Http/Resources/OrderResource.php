@@ -17,9 +17,10 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => new UserResource($this->whenLoaded('user')),
-            'towTruck' => new TowTruckResource($this->whenLoaded('towTruck')),
-            'vehicle' => new VehicleResource($this->whenLoaded('vehicle')),
+            'id' => $this->id,
+            'user' => new UserResource($this->user),
+            'towTruck' => new TowTruckResource($this->towTruck),
+            'vehicle' => new VehicleResource($this->vehicle),
             'pickup_location' => $this->pickup_location,
             'dropoff_location' => $this->dropoff_location,
             'order_details' => $this->order_details,

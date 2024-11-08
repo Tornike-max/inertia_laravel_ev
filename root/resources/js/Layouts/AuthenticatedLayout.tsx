@@ -20,13 +20,6 @@ export default function Authenticated({
         useState(false);
 
     const currentPath = window.location.href.includes("admin");
-
-    console.log(
-        currentOrder &&
-            currentOrder.status !== "completed" &&
-            currentOrder.user_id === user.id &&
-            currentOrder
-    );
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="border-b border-gray-100 bg-white">
@@ -235,10 +228,10 @@ export default function Authenticated({
 
             {currentOrder &&
                 currentOrder.status !== "completed" &&
-                currentOrder.user_id === user.id && (
+                currentOrder?.user.id === user?.id && (
                     <div className="fixed bottom-4 right-4 z-50">
                         <NavLink
-                            href={route("order.current", currentOrder.id)}
+                            href={route("order.current", currentOrder?.id)}
                             active={false}
                             className="text-white bg-blue-700 hover:bg-blue-800 rounded-full focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-lg p-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all transform hover:scale-110 shadow-xl hover:shadow-2xl"
                         >

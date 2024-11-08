@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $currentOrderSession = session('currentOrder') ?? null;
         $order = Order::query();
         if (isset($currentOrderSession)) {
-            $order = $order->where('id', '=', $currentOrderSession->id)->first();
+            $order = $order->with(['user', 'tow_truck', 'vehicle'])->where('id', '=', $currentOrderSession->id)->first();
         }
 
         if (isset($currentOrderSession) && $order->status === 'completed') {
@@ -32,7 +32,7 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', [
             'services' => $services,
             'ourMission' => $ourMission,
-            'currentOrder' => new OrderResource($currentOrderSession),
+            'currentOrder' => new OrderResource($order),
         ]);
     }
 }

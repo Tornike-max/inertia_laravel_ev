@@ -23,7 +23,7 @@ class TowTruckResource extends JsonResource
             'location' => $this->location,
             'driver_phone' => $this->driver_phone,
             'image' => $this->image,
-            'user' => new UserResource($this->whenLoaded('user')),
+            'user' => new UserResource($this->user),
             'price' => $this->price,
             'latutude' => $this->latitude,
             'longitude' => $this->longitude,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\order;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\TowTruck;
 use App\Models\Vehicle;
@@ -76,7 +77,7 @@ class OrderController extends Controller
 
         if ($sessionCurrentOrder->id === $order->id && $sessionCurrentOrder->user_id === $order->user_id && $sessionCurrentOrder->tow_truck_id === $order->tow_truck_id) {
             return inertia('Order/CurrentOrder', [
-                'currentOrder' => $sessionCurrentOrder ?? null
+                'currentOrder' => new OrderResource($order) ?? null
             ]);
         } else {
             return to_route('dashboard');
